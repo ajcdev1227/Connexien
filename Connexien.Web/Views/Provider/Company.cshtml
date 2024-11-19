@@ -1,0 +1,27 @@
+﻿@using Connexien.Web.Models
+@model ProfileModel
+@{
+    ViewBag.Home = "active";
+    ViewBag.Title = "Connexien Service Provider Dashboard";
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="hidden-xs col-sm-3 col-md-3 col-lg-3">
+            @Html.Partial("_SideNav", Model)
+        </div>
+        <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+            <h4 class="page-header"><span class="glyphicon glyphicon-list-alt" style="vertical-align: -3px;"></span>&nbsp;&nbsp;Service Profile: Company Contact Info</h4>
+            @using (Html.BeginForm("SaveProfile", "Provider", new { id = "Company" }, FormMethod.Post, new { @class = "form-provider-setup", role = "form" }))
+            {
+                <input type="hidden" name="profileId" value="@Model.Id" />
+                @Html.Partial("Forms/_Profile_Company", Model)
+                <hr />
+                <div class="text-right">
+                    <button type="submit" class="btn btn-lg btn-success btn-submit" data-loading-text="Saving...">Save</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

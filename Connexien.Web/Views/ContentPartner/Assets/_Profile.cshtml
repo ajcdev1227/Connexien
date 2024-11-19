@@ -1,0 +1,106 @@
+﻿@model Connexien.Web.Models.ProfileModel
+@{
+    var labels = new[] { "label-warning", "label-success", "label-info", "label-danger" };
+    ViewBag.CoverId = Model.CoverPic;
+    // var cover = Url.Action("Picture", "Profile", new { id = ViewBag.CoverId, t = "cover" });
+    var cover = "https://connexien.blob.core.windows.net/site-profile-images-resized/" + Model.CoverPic.GetSizedImageName(150, 150);
+
+    var url = string.IsNullOrWhiteSpace(Model.CompanyWebsite) ? "" : Model.CompanyWebsite.ToLower().Substring(0, 4) == "http" ? Model.CompanyWebsite : "http://" + Model.CompanyWebsite;
+}
+<style>
+    .profile .profile-cover
+    {
+        background-image: url('@Html.Raw(cover)');
+    }
+
+    .profile .article { overflow:hidden;}
+
+    .profile .article-title
+    {
+        background-color:#C7E5F3;
+        margin:-15px;
+        padding:15px;
+    }
+
+    .profile .article-desc
+    {
+        margin-top:40px;
+    }
+</style>
+<div class="container-fluid profile">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="profile-cover">
+                <div class="profile-cover-shade profile-editable profile-editbox-nopad" data-edit-url="@Url.Action("Section", "ContentPartner", new { id = "Profile"}, null)">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row profile-body">
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 profile-left">
+            <div class="circular-portrait circular-portrait-profile profile-img" style="margin:auto;" data-edit-url="@Url.Action("Section", "ContentPartner", new { id = "Profile" }, null)">
+                <img style="width:150px;" src="https://connexien.blob.core.windows.net/site-profile-images-resized/@Model.AvatarPic.GetSizedImageName(150,150)?w=150&h=150&t=avatar" />
+            </div>
+            <div class="profile-editable" data-edit-url="@Url.Action("Section", "ContentPartner", new { id = "Personal" }, null)">
+                <h5 class="text-muted">
+                    <b>@Model.FirstName @Model.LastName</b><br />
+                    <small>@Model.Title at @Model.CompanyName</small>
+                </h5>
+                <hr/>
+
+                @{
+                    var location = string.IsNullOrWhiteSpace(Model.City) ? Model.City : "";
+                    location = string.IsNullOrWhiteSpace(location) ? Model.State : location + ", " + Model.State;
+                }
+
+                @if (!string.IsNullOrWhiteSpace(location))
+                {
+                    <h6><span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp;@location</h6>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.PersonalPhone))
+                {
+                    <h6><span class="glyphicon glyphicon-phone"></span>&nbsp;&nbsp;<a href="tel: @Model.PersonalPhone">@Model.PersonalPhone</a></h6>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.PersonalEmail))
+                {
+                    <h6><span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp;<a href="mailto: @Model.PersonalEmail">@Model.PersonalEmail</a></h6>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.CompanyWebsite))
+                {
+                    <h6><span class="glyphicon glyphicon-link"></span>&nbsp;&nbsp;<a href="@url" target="_blank">@Model.CompanyWebsite</a></h6>
+                }
+            </div>
+
+            @if (Model.DisplayReview)
+            {
+                @Html.Partial("Assets/_Review", Model)
+            }
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8 profile-right">
+
+            @if (Model.ProductTitles != null && Model.ProductTitles.Any())
+            {
+                <hr />
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                                Products:
+                            </td>
+                            <td>
+                                <div class="profile-editable" data-edit-url="@Url.Action("Section", "ContentPartner", new { id = "Expertise" }, null)">
+                                    @foreach (var p in Model.ProductTitles.OrderBy(x => x))
+                                    {
+                                        <span class="label label-lg label-muted">@p</span>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
+
+        </div>
+    </div>
+</div>

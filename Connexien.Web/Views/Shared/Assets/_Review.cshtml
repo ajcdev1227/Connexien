@@ -1,0 +1,29 @@
+﻿@model Connexien.Web.Models.ProfileModel
+
+<hr/>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 slide-wrap">
+            <div id="slide1" class="slide alert alert-info text-center">
+                <h4>Have you done business with @Model.FirstName?</h4>
+                <button class="btn btn-info toggle-show" data-goto="slide2">Yes</button>
+                <button class="btn btn-info toggle-hide" data-goto="slide3">No</button>
+            </div>
+            <div id="slide2" class="slide alert alert-warning text-center">
+                <h4>How would you rate @Model.FirstName?</h4>
+                <div class="star-wrap" data-posturl="@Url.Action("Rate","Profile",new {id = Model.ProfileGuid})">
+                    <h3>
+                        <span class="star-rating glyphicon glyphicon-star-empty" data-rating="1" data-goto="slide3"></span>
+                        <span class="star-rating glyphicon glyphicon-star-empty" data-rating="2" data-goto="slide3"></span>
+                        <span class="star-rating glyphicon glyphicon-star-empty" data-rating="3" data-goto="slide3"></span>
+                        <span class="star-rating glyphicon glyphicon-star-empty" data-rating="4" data-goto="slide3"></span>
+                        <span class="star-rating glyphicon glyphicon-star-empty" data-rating="5" data-goto="slide3"></span>
+                    </h3>
+                </div>
+            </div>
+            <div id="slide3" class="slide alert alert-success text-center">
+                <h4>Thanks for your feedback!</h4>
+            </div>
+        </div>
+    </div>
+</div>

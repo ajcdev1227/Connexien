@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    @Html.Partial("Partials/_Meta")
+
+    @Styles.Render("~/Content/base")
+
+    @*
+
+        @if (User.Identity.IsAuthenticated && User.IsInRole("user"))
+        {
+            @Styles.Render("~/Content/user")
+        }
+        else if (User.Identity.IsAuthenticated && User.IsInRole("rep"))
+        {
+            @Styles.Render("~/Content/rep")
+        }
+    *@
+
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    @Html.Partial("Partials/_Header", "container")
+    @RenderBody()
+    @Html.Partial("Partials/_Footer")
+
+    <div class="modal fade" id="customFormRequestModal" tabindex="-1" role="dialog" aria-labelledby="customFormRequestModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">
+
+            //****** GLOBAL URL VARIABLES ******
+
+            var avatarUrl = "@Url.Content("~/Content/images/default-avatar.png")";
+            var loadingGif = "@Url.Content("~/Content/images/loading.gif")";
+
+    </script>
+    @Html.Partial("Partials/_Analytics")
+
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            $("#SideNav li").removeClass("active");
+
+            @if (ViewBag.Nav != null)
+            {
+                <text>
+                    $("#SideNav li").eq(@ViewBag.Nav).addClass("active");
+                </text>
+            }
+
+            @if (ViewBag.ErrorMsg != null)
+            {
+                <text>toastr.error("@Html.Raw(ViewBag.ErrorMsg)");</text>
+            }
+
+            @if (ViewBag.SuccessMsg != null)
+            {
+                <text>toastr.success("@Html.Raw(ViewBag.SuccessMsg)");</text>
+            }
+
+        });
+    </script>
+
+    @Scripts.Render("~/bundles/custom")
+
+    @RenderSection("scripts", required: false)
+
+
+</body>
+</html>

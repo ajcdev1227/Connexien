@@ -1,0 +1,212 @@
+﻿@using Connexien.Web.Models
+@using Connexien.Lib
+
+@model ProfileModel
+@{
+    ViewBag.Home = "active";
+    ViewBag.Title = "Connexien Service Provider Dashboard";
+}
+<style>
+    .modal-backdrop.in {
+        z-index: 1040;
+    }
+
+    #checkoutModal {
+        z-index: 1050;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="hidden-xs col-sm-3 col-md-3 col-lg-3">
+            @Html.Partial("_SideNav", Model)
+        </div>
+        <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+            <div style="margin-top: 40px;">
+                <a id="newPublish" href="@Url.Action("CreatePublication", "Publication")" class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#articleModal">
+                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Submit Publication
+                </a>
+                <h4 class="page-header">
+                    <span class="glyphicon glyphicon-inbox" style="vertical-align: -3px;">
+                    </span>&nbsp;&nbsp;Publications
+                </h4>
+            </div>
+
+            @if (Model.Articles.Any())
+            {
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width:90px;">
+                                Created
+                            </th>
+                            <th>
+                                Article
+                            </th>
+                            <th style="width:80px;">
+                                Views
+                            </th>
+                            <th style="width:150px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var a in Model.Articles)
+                        {
+                            var id = "#articleModal" + a.Id;
+
+                            <tr>
+                                <td>@a.Created.ToShortDateString()</td>
+                                <td>
+                                    <h6>
+                                        @a.Title
+                                        <br />
+                                        <small class="text-muted">@a.Description</small>
+                                    </h6>
+                                </td>
+                                <td class="text-center">@a.Views</td>
+                                <td class="text-center">
+
+                                    @*<button class="btn btn-default" data-toggle="modal" data-target="@id">Edit</button>
+                                        @if (a.Published.HasValue)
+                                        {
+                                            <a class="btn btn-primary" href="@Url.Action("Index", "A", new { id = a.ArticleGuid })">View</a>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-danger btn-delete" data-id="@a.Id"><span class="glyphicon glyphicon-remove"></span></button>
+                                        }*@
+
+
+                                    <a class="btn btn-default" href="@Url.Action("EditPublication", "Publication", new { id = a.ArticleGuid })" data-toggle="modal" data-target="#articleModal" title="Edit">
+                                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    </a>
+
+                                    <a class="btn btn-primary" href="@Url.Action("Index", "A", new { id = a.ArticleGuid })" title="View">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                    </a>
+
+                                    <a class="btn btn-danger" href="@Url.Action("DeletePublication", "Publication", new { id = a.ArticleGuid })" title="Delete">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <h3>You have no published articles.<br /><small class="text-muted">Submit a new publication using the button above.</small></h3>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="articleModal" tabindex="-1" role="dialog" aria-labelledby="articleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="checkout">
+
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts {
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script type="text/javascript">
+        const stripe = Stripe("pk_live_GG2tF2PEWAyQ8MiQgNpfWcbo");
+        async function initialize() {
+            var session_id = "";
+            const fetchClientSecret = async () => {
+                const response = await fetch("CreateCheckoutSession", {
+                    method: "POST",
+                });
+                const { clientSecret } = await response.json();
+                session_id = clientSecret;
+                return clientSecret;
+            };
+
+            const handleComplete = async function () {
+                // Destroy Checkout instance
+                checkout.destroy();
+
+                const response = await fetch(`SessionStatus?session_id=${session_id.substring(0, 66)}`);
+                const session = await response.json();
+                $('#StripeToken').val(session_id.substring(0, 66));
+                var form = $('#formPublish');
+                
+                form.submit();
+            }
+
+            const checkout = await stripe.initEmbeddedCheckout({
+                fetchClientSecret,
+                onComplete: handleComplete
+            });
+
+            checkout.mount('#checkout');
+            //$('#articleModal').modal('hide');
+            $('#checkoutModal').modal('toggle');
+        }
+
+        $(function () {
+
+            $(document).on('click', '#payPublish', function (e) {
+
+                var form = $('#formPublish');
+                if (!form.valid()) {
+                    return;
+                }
+
+                var btn = $(this).button('loading');
+                initialize();
+                btn.button('reset');
+            });
+
+            $(document).on('click', '#saveChanges', function (e) {
+                var form = document.getElementById('formPublish');
+                form.submit();
+            });
+
+            $(".btn-delete").click(function() {
+
+                var id = $(this).attr("data-id");
+
+                var r = confirm("Are you sure you want to delete this item? (This cannot be undone)");
+                if (r == true) {
+
+                    $.post("@Url.Action("DeletePublication","Publication")", {id : id}, function(xhr){
+
+                        if (xhr) {
+                            window.location = window.location;
+                        } else {
+                            toastr.error("Publication could not be delete.");
+                        }
+
+
+                    });
+
+                }
+            });
+
+            $('#articleModal').on('loaded.bs.modal', function (e) {
+                setSelected();
+                //setChosen();
+                $(".selectpicker").selectpicker('refresh');
+            });
+
+            $('#checkoutModal').on('hidden.bs.modal', function () {
+                $('body').addClass('modal-open');
+            });
+        });
+    </script>
+}

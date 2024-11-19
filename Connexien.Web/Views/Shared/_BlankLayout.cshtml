@@ -1,0 +1,73 @@
+﻿@{
+    var cover = Url.Action("Picture", "Profile", new { id = ViewBag.CoverId, t = "cover" });
+}
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    @Html.Partial("Partials/_Meta")
+    @Styles.Render("~/Content/base")
+    @Styles.Render("~/Content/profilebg")
+
+    <style>
+    .bg-overlay
+    {
+        background-image: url('@Html.Raw(cover)');
+    }
+    </style>
+
+    @RenderSection("styles", required: false)
+</head>
+<body>
+
+    <div class="bg-overlay"></div>
+    <div class="color-overlay"></div>
+
+    @Html.Partial("Partials/_Header", "container")
+    <div class="container-fluid">
+        @RenderBody()
+    </div>
+    @Html.Partial("Partials/_Footer")
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/ratings")
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+
+            //****** GLOBAL URL VARIABLES ******
+
+            var avatarUrl = "@Url.Content("~/Content/images/default-avatar.png")";
+            var loadingGif = "@Url.Content("~/Content/images/loading.gif")";
+            
+    </script>
+    @Html.Partial("Partials/_Analytics")
+    <script type="text/javascript">
+
+        $(function () {
+
+            var l = $(".navbar-brand img").attr("src");
+            l = l.replace(".png", "_tagline.png");
+            $(".navbar-brand img").attr("src", l);
+            
+            //------------------------------------
+
+            @if (ViewBag.Nav != null)
+            {
+                <text>$("#SideNav li").eq(@ViewBag.Nav).addClass("active");</text>
+            }
+
+            @if (ViewBag.ErrorMsg != null)
+            {
+                <text>toastr.error("@Html.Raw(ViewBag.ErrorMsg)");</text>
+            }
+
+            @if (ViewBag.SuccessMsg != null)
+            {
+                <text>toastr.success("@Html.Raw(ViewBag.SuccessMsg)");</text>
+            }
+
+        });
+    </script>
+</body>
+</html>

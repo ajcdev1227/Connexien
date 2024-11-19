@@ -1,0 +1,11 @@
+﻿@model Connexien.Web.Models.ProfileModel
+@{
+    ViewBag.Title = "Connexien Service Provider";
+    Layout = "~/Views/Shared/_BlankLayout.cshtml";
+
+    ViewBag.CoverId = Model.CoverPic;
+}
+
+
+@Html.Partial("Assets/_Profile", Model)
+

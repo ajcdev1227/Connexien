@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Connexien: Setup New Account";
+    Layout = "~/Views/Shared/_BgLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            <div class="wizard-card">
+                <div class="modal-header">
+                    <h3 class="modal-title text-center">
+                        Welcome to Connexien
+                        <br/><small class="text-muted">What kind of account would you like to setup?</small>
+                    </h3>
+                </div>
+                <div class="modal-body text-center">
+                    @using (Html.BeginForm("Setup", "Account", new { id = "member" }, FormMethod.Post, new { @class = "form-setup", role = "form" }))
+                    {
+                        <button class="btn btn-primary btn-lg btn-submit btn-single" style="width: 340px;" data-loading-text="Setting up account...">I'm looking for service providers</button>
+                        <br />
+                        <small class="text-muted">This account does not require a profile, but you can always add one later.</small>
+                    }
+                    <br /><br />
+                    @using (Html.BeginForm("Setup", "Account", new { id = "provider" }, FormMethod.Post, new { @class = "form-setup", role = "form" }))
+                    {
+                        <button class="btn btn-info btn-lg btn-submit btn-single" style="width: 340px;" data-loading-text="Setting up account...">I'm a service provider</button>
+                        <br />
+                        <small class="text-muted">This account requires a more extensive profile.</small>
+                    }
+                    <br /><br />
+                    @using (Html.BeginForm("Setup", "Account", new { id = "contentpartner" }, FormMethod.Post, new { @class = "form-setup", role = "form" }))
+                    {
+                        <button class="btn btn-success btn-lg btn-submit btn-single" style="width: 340px;" data-loading-text="Setting up account...">I'm a contributing partner</button>
+                        <br />
+                        <small class="text-muted">This account requires a Stripe account for payment processing.</small>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+﻿@model Connexien.Web.Models.SearchModel
+@{
+    ViewBag.Title = "Search";
+}
+
+<link href="@Url.Content("/Content/css/bootstap-slider.css")" rel="stylesheet" type="text/css" />
+<style>
+    
+    body {background:#f5f5f5;}
+
+    .media-body 
+    {
+        padding: 6px 0 0 2px;
+    }
+    
+    .slider.slider-horizontal { width:100%;}   
+    .slider.slider-horizontal .slider-tick, .slider.slider-horizontal .slider-handle { margin-top:-5px;}
+
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 col-md-4">
+            @Html.Partial("_Filters", new Connexien.Web.Models.ProfileModel{ProductTypes = Model.ProductTypes, ServiceTypes = Model.ServiceTypes, FeeType = "both", HourlyRate = 0})
+        </div>
+        <div id="searchWrap" class="col-xs-12 col-sm-8 col-md-8">
+            @Html.Partial("_Results", Model)
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts {
+    <script src="@Url.Content("~/Scripts/libs/bootstrap-slider.min.js")" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        $(function () {
+
+            $("#form-filter input, #form-filter select").change(function () {
+                $(this).closest("form").submit();
+            });
+
+            $("#HourlyRate").slider({
+                ticks: [25, 500],
+                ticks_labels: ['$25', '$500+'],
+                step: 25,
+                min: 25,
+                max: 500,
+                width:'100%'
+            });
+        });
+
+        
+    </script>
+
+}

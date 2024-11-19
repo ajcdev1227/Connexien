@@ -1,0 +1,64 @@
+﻿@using Connexien.Web.Models
+@model ProfileModel
+@{
+    ViewBag.Title = "Connexien: Setup Contributing Partner Profile";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+            <h3 class="page-header"><span class="glyphicon glyphicon-cog" style="vertical-align: -3px;"></span>&nbsp;&nbsp;Setup Contributing Partner Profile</h3>
+            @using (Html.BeginForm("Setup", "ContentPartner", FormMethod.Post, new { @class = "form-provider-setup", role = "form" }))
+            {
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="h1">
+                            <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#c1" aria-expanded="false" aria-controls="c1">1. Personal Contact Info</a></h4>
+                        </div>
+                        <div id="c1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="h1">
+                            <div class="panel-body">
+                                @Html.Partial("Forms/_Profile_Personal", Model)
+                                <hr />
+                                <a class="btn btn-primary pull-right" role="button" data-toggle="collapse" data-parent="#accordion" href="#c2" aria-expanded="true" aria-controls="c2">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="h2">
+                            <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#c2" aria-expanded="false" aria-controls="c2">2. Company Contact Info</a></h4>
+                        </div>
+                        <div id="c2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="h2">
+                            <div class="panel-body">
+                                @Html.Partial("Forms/_Profile_Company", Model)
+                                <hr />
+                                <a class="btn btn-default" role="button" data-toggle="collapse" data-parent="#accordion" href="#c1" aria-expanded="true" aria-controls="c1"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+                                <button type="submit" class="btn btn-success pull-right btn-submit" data-loading-text="Setting up profile <img src='../../Content/images/loader.gif' />"><span class="glyphicon glyphicon-ok"></span> Submit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+
+    <script>
+
+        $(function () {
+
+            if ($(".panel-collapse .field-validation-error").length > 0) {
+                $(".panel-collapse").removeClass("in");
+                $(".panel-collapse .field-validation-error").first().closest(".panel-collapse").addClass("in");
+            }
+
+        });
+
+    </script>
+
+}

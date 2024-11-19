@@ -1,0 +1,65 @@
+﻿html { height: 100%; }
+body  
+{
+    min-height: 100%;
+    background: #222;
+}
+
+.bg-overlay {
+    /*background:#222222 url('../../Content/images/bg1.jpg') no-repeat center center;*/
+    background: linear-gradient(rgba(72, 95, 127, 0.63), rgba(72, 95, 127, 0.63)), url('../../Content/images/bg1.jpg') no-repeat center center;
+    background-size: cover;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+}
+.color-overlay {
+    background-color: rgba(72, 95, 127, 0.63);
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 0;
+}
+
+
+header.navbar { margin-bottom: 20px;}
+
+header.navbar-default {
+    background: none;
+    box-shadow: none;
+}
+
+header.navbar-static-top {
+    border: 0px;
+}
+
+header  .navbar-brand img {
+    height: auto !important;
+    width: 225px !important;
+    margin: 12px 0 0 -3px;
+}
+
+header .navbar-right {
+    margin: 28px 0 0 0;
+    font-size: 16px;
+}
+
+header .nav .nav-divider 
+{
+    background: #fff;
+    height: 100%;
+    margin: 12px 0;
+    width: 2px;
+}
+
+header .navbar-right a 
+{
+    padding: 12px 16px;
+}
+
+#footer span, #footer a { color: #fff !important;}

@@ -1,0 +1,35 @@
+﻿@{
+    if (ViewBag.Name == null) { ViewBag.Name = "Connexien"; }
+    if (ViewBag.Title == null) { ViewBag.Title = "Connexien- Connecting the Financial World"; }
+    if (ViewBag.Description == null) { ViewBag.Description = "Connecting the Financial World"; }
+    if (ViewBag.Image == null) { ViewBag.Image = "http://www.connexien.com/content/images/cxavatar.jpg"; }
+    var twitter = "@Connexien";
+    var url = HttpContext.Current.Request.Url.AbsoluteUri;
+}
+
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
+<title>@ViewBag.Title</title>
+<meta property="og:title" content="@ViewBag.Title" />
+<meta property="og:url" content="@url" />
+<meta property="og:site_name" content="@ViewBag.Name" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="@ViewBag.Image" />
+<meta property="og:description" content="@ViewBag.Description" />
+<meta content="@twitter" name="twitter:site" />
+<meta content="summary" name="twitter:card" />
+<meta content="@ViewBag.Title" name="twitter:title" />
+<meta content="@ViewBag.Description" name="twitter:description" />
+<meta content="@ViewBag.Image" name="twitter:image:src" />
+<meta name="description" content="@ViewBag.Description">
+<meta http-equiv="content-language" content="en-us" />
+<link href="@Url.Content("~/content/Images/fav.ico")" rel="shortcut icon" type="image/x-icon" />
+<!--[if gte IE 9]><style type="text/css">.gradient {filter: none;}</style><![endif]-->
+
+@*<link href="https://fonts.googleapis.com/css?family=PT+Sans+Caption:300,400,700" rel="stylesheet">*@
+
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700" rel="stylesheet"> 
+@*<script src='https://www.google.com/recaptcha/api.js'></script>*@
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" />

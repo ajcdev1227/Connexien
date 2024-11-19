@@ -1,0 +1,184 @@
+﻿@using Connexien.Web.Models
+@model ContentItemModel
+@{
+    var title = "Submit Content Item";
+    var submit = "Submit";
+    var staticClass = "";
+    var required = "required";
+    var fileNote = "";
+
+    var sTypes = OptionModel.GetSectorTypes();
+    var prices = OptionModel.GetContentPartnerPrices(Model.Price);
+}
+
+<div id="contentItem-modal-form">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="articleModalLabel"><span class="glyphicon glyphicon-file"></span> &nbsp;@title</h4>
+    </div>
+    @using (Html.BeginForm("CreateContent", "ContentPartner", FormMethod.Post, new { id = "formContentItem", role = "form", enctype = "multipart/form-data" }))
+    {
+        <div class="modal-body">
+            @Html.AntiForgeryToken()
+            <input type="hidden" value="@Model.Id" id="Id" name="Id" />
+            @Html.HiddenFor(x => x.ContentItemGuid, new { @class = "static" })
+            @Html.HiddenFor(x => x.ProfileId, new { @class = "static" })
+            @Html.HiddenFor(x => x.ProfileGuid, new { @class = "static" })
+            @Html.HiddenFor(x => x.Created, new { @class = "static"})
+            @Html.HiddenFor(x => x.Updated, new { @class ="static"})
+
+            <div class="modal-body form-horizontal">
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Sector, "Industry Sector", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(x => x.Sector, sTypes, "- Please select an industry sector -", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Sector)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Title, "Title", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <div class="input-group-addon" id="sectorAddon"></div>
+                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control " + staticClass, placeholder = "Content Title" })
+                        </div>
+                        @Html.ValidationMessageFor(x => x.Title)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Description, "Description", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextAreaFor(x => x.Description, new { @class = "form-control " + staticClass, placeholder = "Content Description (Max 1,000 Characters)" })
+                        @Html.ValidationMessageFor(x => x.Description)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Authors, "Author(s)", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(x => x.Authors, new { @class = "form-control " + staticClass, placeholder = "Author Name(s)" })
+                        @Html.ValidationMessageFor(x => x.Authors)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Version, "Version", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(x => x.Version, new { @class = "form-control " + staticClass, placeholder = "Content Version" })
+                        @Html.ValidationMessageFor(x => x.Version)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Date Created</label>
+                    <div class="col-sm-9">
+                        <label class="form-control-static">@DateTime.Now.ToShortDateString()</label>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Price, "Price (in dollars)", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.DropDownList("Prices", prices, "- Please select a price  -", new { @class = "form-control" })
+                        <div class="other-price" style="padding-top:5px; display:none;">
+                            <div class="input-group">
+                                <div class="input-group-addon">$</div>
+                                @Html.TextBoxFor(x => x.Price, new { @class = "form-control " + staticClass, placeholder = "Set your price" })
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(x => x.Price)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Pages, "Total Page Count", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(x => x.Pages, new { @class = "form-control " + staticClass, placeholder = "Content Pages" })
+                        @Html.ValidationMessageFor(x => x.Pages)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.File, "Document Upload", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        <input type="file" id="File" name="File" title="No File Selected" accept=".docx, .doc, .pdf, .txt" @required>
+                        <span class="fileMsg text-muted">.doc .docx .pdf .txt</span>
+                        @Html.ValidationMessageFor(x => x.File)
+                        @Html.Raw(fileNote)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(x => x.AcceptedTermsAndConditions)
+                                I Agree to the <u>@Html.ActionLink("CPP User Agreement", "TermsAndConditions", "ContentPartner", null, new { target = "_blank" })</u>
+                            </label>
+                            <div>@Html.ValidationMessageFor(x => x.AcceptedTermsAndConditions)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button id="submitContentItem" type="submit" class="btn btn-primary btn-submit" data-loading-text="Processing...">@submit</button>
+        </div>
+    }
+</div>
+
+<script>
+    $.validator.unobtrusive.parse($("form"));
+
+    function dismissContentItemModal() {
+        $('#contentItemModal').modal('hide');
+        location.reload();
+    }
+
+    $('#formContentItem').submit(function (e) {        
+        e.preventDefault();
+
+        var form = $('#formContentItem');
+        
+        if (form.valid()) {
+            var formData = new FormData(form.get(0));
+
+            var totalFiles = document.getElementById("File").files.length;
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById("File").files[i];
+
+                formData.append("File", file);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("CreateContent", "ContentPartner")',
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (response) {                    
+                    toastr.success(response.statusText);
+                    dismissContentItemModal();
+                    return true;
+                },
+                error: function (error) {
+                    toastr.error(error.statusText);
+                    return false;
+                }
+            });
+
+            return false;
+        }
+
+        return false;
+    });
+</script>
+
+

@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    @Html.Partial("Partials/_Meta")
+    @Styles.Render("~/Content/base")
+    @Styles.Render("~/Content/fullbg")
+
+    @RenderSection("styles", required: false)
+</head>
+<body style="display:flex; flex-direction:column;" class="bg-overlay">
+
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+
+            //****** GLOBAL URL VARIABLES ******
+
+            var avatarUrl = "@Url.Content("~/Content/images/default-avatar.png")";
+            var loadingGif = "@Url.Content("~/Content/images/loading.gif")";
+
+    </script>
+    @Html.Partial("Partials/_Analytics")
+</body>
+</html>

@@ -1,0 +1,175 @@
+﻿@model string
+@{
+    var msgCount = 5;
+    var msgShow = true;
+    var hasMessages = "active";// Connexien.Web.Models.MessageModel.HasMessages(User.IsInRole("rep")) ? "active" : "";
+    var container = string.IsNullOrWhiteSpace(Model) ? "container-fluid" : Model;
+}
+<header class="navbar navbar-default navbar-static-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            @if (ViewBag.TopMenu ?? true)
+            {
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            }
+
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <a class="navbar-brand" href="http://www.connexien.com" style="padding: 8px; margin-left: 0;"><img src="@Url.Content("~/Content/images/logo_white.png")" style="height: 33px;" /></a>
+            }
+            else
+            {
+                <a class="navbar-brand" href="@Url.Action("Index","Home")" style="padding: 8px; margin-left: 0;"><img src="@Url.Content("~/Content/images/logo_white.png")" style="height: 33px;" /></a>
+            }
+        </div>
+        @if (ViewBag.TopMenu ?? true)
+        {
+            <div id="navbar" class="navbar-collapse collapse">
+
+                @if (!User.Identity.IsAuthenticated)
+                {
+
+                    <ul class="nav navbar-nav navbar-right" style="margin-right:0;">
+                        <li>
+                            <div class="hidden-xs"></div>
+                        </li>
+                        <li class="text-danger"><a href="https://www.connexien.com/">Home</a></li>
+                        <li class="text-danger"><a href="https://www.connexien.com/what-we-do/">What We Do</a></li>
+                        <li class="text-danger"><a href="https://www.connexien.com/publish/">Publish</a></li>
+                        <li class="text-danger"><a href="https://www.connexien.com/store/">Store</a></li>
+                        <li class="text-danger"><a href="https://www.connexien.com/team/">Team</a></li>
+                        <li class="text-danger"><a href="https://www.connexien.com/contact/">Contact</a></li>
+                        <li class="nav-divider">&nbsp;</li>
+                        <li class="text-danger"><a href="@Url.Action("Login", "Account")">Log In</a></li>
+                        <li class="text-danger"><a class="bttn" href="@Url.Action("Register", "Account")">Sign Up</a></li>
+                    </ul>
+                }
+                else if ((User.IsInRole("provider") || User.IsInRole("contentpartner")) && ViewBag.HasProfile ?? true)
+                {
+                    @* ****** START PROVIDER MOBILE MENU ****** *@
+
+                    <ul class="nav navbar-nav navbar-right hidden-lg hidden-md hidden-sm">
+                        <li id="topMenu" class="@ViewBag.Home">
+                            <div id="lnkDashboard" class="col-xs-3">
+                                <a href="@Url.Action("RedirectToDefault", "Account")" title="Home">
+                                    <span class="glyphicon glyphicon-home"></span>
+                                </a>
+                            </div>
+                            <div id="lnkMessages" class="col-xs-3">
+                                <a href="@Url.Action("Section", new {id = "Personal" })" title="Personal">
+                                    <span class="glyphicon glyphicon-list-alt"></span>
+                                </a>
+                            </div>
+                            <div id="lnkSettings" class="col-xs-3">
+                                <a href="@Url.Action("Settings", "Account")" title="Settings">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                </a>
+                            </div>
+                            <div class="col-xs-3">
+                                <a href="@Url.Action("Logout", "Account")" title="Logout">
+                                    <span class="glyphicon glyphicon-log-out"></span>
+                                </a>
+                            </div>
+                        </li>
+
+                        @if (ViewBag.Home != null && ViewBag.Home == "active")
+                        {
+
+                            if (User.IsInRole("member"))
+                            {
+
+                            }
+                            else if (User.IsInRole("provider"))
+                            {
+
+                            }
+                            else if (User.IsInRole("admin"))
+                            {
+
+                            }
+                        }
+
+                    </ul>
+
+                    @* ****** END PROVIDER MOBILE MENU ****** *@
+
+                    @* ****** START PROVIDER NORMAL MENU ****** *@
+
+                    <ul class="nav navbar-nav navbar-right hidden-xs">
+
+                        @if (User.IsInRole("admin"))
+                        {
+                            <li>
+                                <a href="@Url.Action("GetUserProfiles", "Admin")">
+                                    <span class="glyphicon glyphicon-wrench"></span> <span>Member List</span>
+                                </a>
+                            </li>
+                        }
+
+                        <li id="lnkDashboard" class="@ViewBag.Home" style="margin: 0;">
+                            <a href="@Url.Action("RedirectToDefault", "Account")">
+                                <span class="glyphicon glyphicon-home"></span> <span>Dashboard</span>
+                            </a>
+                        </li>
+                        @*
+                            <li id="lnkMessages" class="@ViewBag.Messages" style="margin: 0;">
+                                <a href="@Url.Action("Index", "Messages")">
+                                    <span class="glyphicon glyphicon-envelope"></span> <span>Messages</span>
+                                    <span class="badge badge-success pull-right @msgShow" style="margin:-6px 0  0 2px;">@msgCount</span>
+                                </a>
+                            </li>
+                        *@
+                        <li id="lnkSettings" class="@ViewBag.Settings" style="margin: 0; border-right: 1px solid #ddd;">
+                            <a href="@Url.Action("Settings", "Account")">
+                                <span class="glyphicon glyphicon-cog"></span> <span>Settings</span>
+                            </a>
+                        </li>
+
+
+                        <li>
+                            <a href="@Url.Action("Logout", "Account")">
+                                <span class="glyphicon glyphicon-log-out"></span> Log Out
+                            </a>
+                        </li>
+                    </ul>
+
+                    @* ****** END PROVIDER NORMAL MENU ****** *@
+                }
+                else if (User.IsInRole("member"))
+                {
+                    @* ****** START MEMBER NORMAL MENU ****** *@
+
+                    <ul class="nav navbar-nav navbar-right hidden-xs">
+                        <li id="lnkSettings" class="@ViewBag.Settings" style="margin: 0; border-right: 1px solid #ddd;">
+                            <a href="@Url.Action("Settings", "Account")">
+                                <span class="glyphicon glyphicon-cog"></span> <span>Settings</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Logout", "Account")">
+                                <span class="glyphicon glyphicon-log-out"></span> Log Out
+                            </a>
+                        </li>
+                    </ul>
+
+                    @* ****** END MEMBER NORMAL MENU ****** *@
+                }
+                else
+                {
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="@Url.Action("Logout", "Account")">
+                                <span class="glyphicon glyphicon-log-out"></span> Log Out
+                            </a>
+                        </li>
+                    </ul>
+                }
+            </div>
+        }
+    </div>
+</header>

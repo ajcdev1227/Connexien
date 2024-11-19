@@ -1,0 +1,106 @@
+﻿@using Connexien.Web.Models
+@model ProfileModel
+@{
+    ViewBag.Title = "Connexien: Setup Service Provider Profile";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+            <h3 class="page-header"><span class="glyphicon glyphicon-cog" style="vertical-align: -3px;"></span>&nbsp;&nbsp;Setup Service Provider Profile</h3>
+            @using (Html.BeginForm("Setup", "Provider", FormMethod.Post, new { @class = "form-provider-setup", role = "form" }))
+            {
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="h1">
+                            <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#c1" aria-expanded="false" aria-controls="c1">1. Personal Contact Info</a></h4>
+                        </div>
+                        <div id="c1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="h1">
+                            <div class="panel-body">
+                                @Html.Partial("Forms/_Profile_Personal", Model)
+                                <hr/>
+                                <a class="btn btn-primary pull-right" role="button" data-toggle="collapse" data-parent="#accordion" href="#c2" aria-expanded="true" aria-controls="c2">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="h2">
+                            <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#c2" aria-expanded="false" aria-controls="c2">2. Company Contact Info</a></h4>
+                        </div>
+                        <div id="c2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="h2">
+                            <div class="panel-body">
+                                @Html.Partial("Forms/_Profile_Company", Model)
+                                <hr/>
+                                <a class="btn btn-default" role="button" data-toggle="collapse" data-parent="#accordion" href="#c1" aria-expanded="true" aria-controls="c1"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+                                <a class="btn btn-primary pull-right" role="button" data-toggle="collapse" data-parent="#accordion" href="#c3" aria-expanded="true" aria-controls="c3">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="h3">
+                            <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#c3" aria-expanded="false" aria-controls="c3">3. Experience & Qualifications</a></h4>
+                        </div>
+                        <div id="c3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="h3">
+                            <div class="panel-body">
+                                @Html.Partial("Forms/_Profile_Experience", Model)
+                                <hr/>
+                                <a class="btn btn-default" role="button" data-toggle="collapse" data-parent="#accordion" href="#c2" aria-expanded="true" aria-controls="c2"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+                                <a class="btn btn-primary pull-right" role="button" data-toggle="collapse" data-parent="#accordion" href="#c4" aria-expanded="true" aria-controls="c4">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="h4">
+                            <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#c4" aria-expanded="false" aria-controls="c4">4. Industry Focus & Fees</a></h4>
+                        </div>
+                        <div id="c4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="h4">
+                            <div class="panel-body">
+                                @Html.Partial("Forms/_Profile_Industry", Model)
+                                <hr/>
+                                <a class="btn btn-default" role="button" data-toggle="collapse" data-parent="#accordion" href="#c3" aria-expanded="true" aria-controls="c3"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+                                <a class="btn btn-primary pull-right" role="button" data-toggle="collapse" data-parent="#accordion" href="#c5" aria-expanded="true" aria-controls="c5">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="h5">
+                            <h4 class="panel-title"><a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#c5" aria-expanded="false" aria-controls="c5">5. Area(s) of Focus & Expertise</a></h4>
+                        </div>
+                        <div id="c5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="h5">
+                            <div class="panel-body">
+                                @Html.Partial("Forms/_Profile_Expertise", Model)
+                                <hr/>
+                                <a class="btn btn-default" role="button" data-toggle="collapse" data-parent="#accordion" href="#c4" aria-expanded="true" aria-controls="c4"><span class="glyphicon glyphicon-chevron-left"></span> Back</a>
+                                <button type="submit" class="btn btn-success pull-right btn-submit" data-loading-text="Setting up profile <img src='../../Content/images/loader.gif' />"><span class="glyphicon glyphicon-ok"></span> Submit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+
+<script>
+
+    $(function () {
+
+        if ($(".panel-collapse .field-validation-error").length > 0) {
+            $(".panel-collapse").removeClass("in");
+            $(".panel-collapse .field-validation-error").first().closest(".panel-collapse").addClass("in");
+        }
+
+    });
+    
+</script>
+
+}

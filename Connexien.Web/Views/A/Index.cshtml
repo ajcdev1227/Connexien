@@ -1,0 +1,40 @@
+﻿@using Connexien.Web.Models
+@model PublicationModel
+@{
+    ViewBag.Title = Model.Title;
+
+    var published = Model.Published.HasValue ? Model.Published.Value.ToString("MMM d, yyyy") : "";
+}
+
+<style>
+    .article-title {
+        margin-bottom: 5px;
+        font-size: 40px;
+    }
+    .article-meta {
+        margin-bottom: 20px;
+    }
+    p {
+        margin: 0 0 10px;
+        font-size: 18px;
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+
+            <div class="card" style="padding:40px;">
+                <h2 class="article-title">@Model.Title</h2>
+                <p class="article-meta text-muted">@published by <a href="@Url.Action("Index", "P", new {id = Model.ProfileGuid})">@Model.Authors</a></p>
+                <blockquote>
+                    <p>@Model.Description</p>
+                </blockquote>
+                <div class="text-center">
+                    <a href="@Url.Action("Download", "A", new {id = Model.Filename})" class="btn btn-lg btn-primary">Download Article</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

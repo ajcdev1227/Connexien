@@ -1,0 +1,132 @@
+﻿@using Connexien.Web.Models
+@model ProfileModel
+@{
+    Model.ServiceStates = Model.ServiceStates ?? new string[0];
+}
+
+<div class="form-group">
+    @Html.LabelFor(x => x.Focuses, "Select your industry focus:")
+    <select style="display:none;"></select> @*Below list box does not populate if this blank box is remove... weird *@
+    @Html.ListBoxFor(x => x.Focuses, new MultiSelectList(OptionModel.GetFocuses(Model.Focuses), "Value", "Text"), new { @class = "chosen", multiple = "" })
+    @Html.ValidationMessageFor(x => x.Focuses)
+    <small class="text-muted">Click on the box again to select multiple options.</small>
+</div>
+<hr/>
+<div class="form-group">
+    @Html.LabelFor(x => x.Availability, "What is your current availability?")
+    <select class="form-control" id="Availability" name="Availability" data-selected="@Model.Availability">
+        <option value="all">I’m available for projects/services (short/long‐term)</option>
+        <option value="short only">I’m reaching Capacity (short‐term projects only)</option>
+        <option value="none">I’m currently at Capacity (no additional projects at this time)</option>
+    </select>
+    @Html.ValidationMessageFor(x => x.Availability)
+</div>
+<hr/>
+<div class="form-group">
+    @Html.LabelFor(x => x.CommunicationPref, "Through what methods do you connect with clients to provide services?")
+    <select class="form-control" id="CommunicationPref" name="CommunicationPref" data-selected="@Model.CommunicationPref">
+        <option value="phone">Phone/Email</option>
+        <option value="onsite">Onsite</option>
+        <option value="both">Both</option>
+    </select>
+    @Html.ValidationMessageFor(x => x.CommunicationPref)
+</div>
+<hr/>
+<div class="wrap">
+    <div class="form-group">
+        @Html.LabelFor(x => x.AllStatesBit, "Are you available to travel to and provide onsite services to all states?")
+                                
+        <select class="form-control" id="AllStatesBit" name="AllStatesBit" data-selected="@Model.AllStatesBit">
+            <option value="True" class="toggle-hide">I’m available to travel to any/all states if requested</option>
+            <option value="False" class="toggle-show">I’m limited to traveling to select states only</option>
+        </select>
+    </div>
+    <div class="toggle-hidden">
+        <div class="form-group">
+            @Html.LabelFor(x => x.Designations, "Please list all states in which you are available to provide onsite services to:")
+            <select id="ServiceStates" name="ServiceStates" class="chosen" multiple="" data-selected="@string.Join(",", Model.ServiceStates)">
+	            <option value="AL">Alabama</option>
+	            <option value="AK">Alaska</option>
+	            <option value="AZ">Arizona</option>
+	            <option value="AR">Arkansas</option>
+	            <option value="CA">California</option>
+	            <option value="CO">Colorado</option>
+	            <option value="CT">Connecticut</option>
+	            <option value="DE">Delaware</option>
+	            <option value="DC">District Of Columbia</option>
+	            <option value="FL">Florida</option>
+	            <option value="GA">Georgia</option>
+	            <option value="HI">Hawaii</option>
+	            <option value="ID">Idaho</option>
+	            <option value="IL">Illinois</option>
+	            <option value="IN">Indiana</option>
+	            <option value="IA">Iowa</option>
+	            <option value="KS">Kansas</option>
+	            <option value="KY">Kentucky</option>
+	            <option value="LA">Louisiana</option>
+	            <option value="ME">Maine</option>
+	            <option value="MD">Maryland</option>
+	            <option value="MA">Massachusetts</option>
+	            <option value="MI">Michigan</option>
+	            <option value="MN">Minnesota</option>
+	            <option value="MS">Mississippi</option>
+	            <option value="MO">Missouri</option>
+	            <option value="MT">Montana</option>
+	            <option value="NE">Nebraska</option>
+	            <option value="NV">Nevada</option>
+	            <option value="NH">New Hampshire</option>
+	            <option value="NJ">New Jersey</option>
+	            <option value="NM">New Mexico</option>
+	            <option value="NY">New York</option>
+	            <option value="NC">North Carolina</option>
+	            <option value="ND">North Dakota</option>
+	            <option value="OH">Ohio</option>
+	            <option value="OK">Oklahoma</option>
+	            <option value="OR">Oregon</option>
+	            <option value="PA">Pennsylvania</option>
+	            <option value="RI">Rhode Island</option>
+	            <option value="SC">South Carolina</option>
+	            <option value="SD">South Dakota</option>
+	            <option value="TN">Tennessee</option>
+	            <option value="TX">Texas</option>
+	            <option value="UT">Utah</option>
+	            <option value="VT">Vermont</option>
+	            <option value="VA">Virginia</option>
+	            <option value="WA">Washington</option>
+	            <option value="WV">West Virginia</option>
+	            <option value="WI">Wisconsin</option>
+	            <option value="WY">Wyoming</option>
+            </select>
+            <small class="text-muted">Click on the box again to select multiple options.</small>	
+        </div>
+    </div>
+</div>
+<hr/>
+<div class="wrap">
+    <div class="form-group">
+        @Html.LabelFor(x => x.FeeType, "What is your fee structure?")
+        <select class="form-control" id="FeeType" name="FeeType" data-selected="@Model.FeeType">
+            <option value="hourly" class="toggle-show">Hourly Fee</option>
+            <option value="flat" class="toggle-hide">Flat Fee</option>
+            <option value="both" class="toggle-show">Both (depends on project)</option>
+        </select>
+    </div>
+    <div class="form-group toggle-hidden">
+        @Html.LabelFor(x => x.HourlyRate, "What is your hourly fee range?")
+        <select class="form-control" id="HourlyRate" name="HourlyRate" data-selected="@Model.HourlyRate">
+            <option value="25">$25‐$50 per hour</option>
+            <option value="50">$50‐$100 per hour</option>
+            <option value="100">$100‐$200 per hour</option>
+            <option value="200">$200‐$300 per hour</option>
+            <option value="300">$300‐$400 per hour</option>
+            <option value="400">$400‐$450 per hour</option>
+            <option value="450">$450‐$500 per hour</option>
+            <option value="500">$500+ per hour (state billable rate)</option>
+        </select>
+    </div>
+    <p>
+        @Html.LabelFor(x => x.FeeNegot, "Are your fees negotiable?")<br/>     
+        <label>@Html.RadioButtonFor(m => m.FeeNegot, "true") Yes</label>&nbsp;&nbsp;
+        <label>@Html.RadioButtonFor(m => m.FeeNegot, "false") No</label>           
+    </p>
+</div>

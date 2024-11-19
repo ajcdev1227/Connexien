@@ -1,0 +1,102 @@
+﻿@model Connexien.Web.Models.RegisterModel
+@{
+    ViewBag.Settings = "active";
+    ViewBag.Title = "Connexien Account Settings";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Account Settings</h2>
+            <hr />
+            <div class="container-fluid">
+                <div class="row">
+                    @using (Html.BeginForm("Settings", "Account", FormMethod.Post, new { id="form1", @class = "form1", role = "form" }))
+                    {
+                        <div class="col-sm-6 col-xs-12">
+                            <h2><small class="text-danger">Basic Information</small></h2>
+                            @Html.HiddenFor(x => x.Id)
+                            @Html.HiddenFor(x => x.Password)
+                            @Html.HiddenFor(x => x.ConfirmPassword)
+                            @Html.HiddenFor(x => x.OldPassword)
+
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.Firstname, "First Name")
+                                @Html.TextBoxFor(x => x.Firstname, new { @class = "form-control", placeholder = "First Name" })
+                                @Html.ValidationMessageFor(x => x.Firstname)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.Lastname, "Last Name")
+                                @Html.TextBoxFor(x => x.Lastname, new { @class = "form-control", placeholder = "Last Name" })
+                                @Html.ValidationMessageFor(x => x.Lastname)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.Email, "Email")
+                                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", placeholder = "Email" })
+                                @Html.ValidationMessageFor(x => x.Email)
+                            </div>
+                            <button class="btn btn-primary" data-loading-text="Saving...">Update</button>
+                        </div>
+                    }
+                    @using (Html.BeginForm("Settings", "Account", FormMethod.Post, new { id="form2", @class = "form2", role = "form" }))
+                    {
+                        <div class="col-sm-6 col-xs-12">
+                            <h2><small class="text-danger">Change Password</small></h2>
+                            @Html.HiddenFor(x => x.Id)
+                            @Html.HiddenFor(x => x.Firstname)
+                            @Html.HiddenFor(x => x.Lastname)
+                            @Html.HiddenFor(x => x.Email)
+
+                            @if (!User.IsInRole("admin"))
+                            {
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.OldPassword, "Verify Current Password")
+                                    @Html.PasswordFor(x => x.OldPassword, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.OldPassword)
+                                </div>
+                            }
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.Password, "New Password")
+                                @Html.PasswordFor(x => x.Password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.Password)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(x => x.ConfirmPassword, "Confirm New Password")
+                                @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                            </div>
+                            <button class="btn btn-primary" data-loading-text="Saving...">Update</button>
+                        </div>
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <hr/>
+                        <h2><small class="text-danger">Close my account</small></h2>
+                        We are sad to see you go, but if you must <a id="close_account" class="text-danger" href="#">click here to close your account</a>.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts {
+
+<script>
+
+    $(function () {
+
+        $("#close_account").click(function () {
+            var r = confirm("Are you sure you want to close your account?");
+            if (r == true) {
+                window.location = "@Url.Action("CloseAccount","Account")";
+            }
+        });
+    })
+
+
+</script>
+
+}

@@ -1,0 +1,96 @@
+﻿@using Connexien.Web.Models
+@model ProfileModel
+
+<div style="margin-top: 40px;">
+    <a id="newContent" href="@Url.Action("CreateContent", "ContentPartner")" class="btn btn-success btn-sm pull-right"
+       data-toggle="modal" data-target="#contentItemModal"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Upload Content</a>
+
+    <h4 class="page-header"><span class="glyphicon glyphicon-file" style="vertical-align: -3px;"></span>&nbsp;&nbsp;Document List</h4>
+</div>
+
+@if (Model.ContentItems.Any())
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Created
+                </th>
+                <th>
+                    Sector
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Price
+                </th>
+                <th style="width:150px;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in Model.ContentItems)
+            {
+                <tr>
+                    <td>@a.Created.ToShortDateString()</td>
+                    <td>@a.Sector</td>
+                    <td>
+                        <h6>
+                            @a.Title
+                            <br />
+
+                            @{
+                                var length = a.Description.Length >= 200 ? 200 : a.Description.Length;
+                                string ellipsis = a.Description.Length >= 200 ? "..." : "";
+                            }
+
+                            <small class="text-muted">@a.Description.Substring(0, length) @ellipsis</small>
+                        </h6>
+                    </td>
+                    <td class="text-center">@a.Price.ToString("C")</td>
+                    <td class="text-center">
+                        <a class="btn btn-default" href="@Url.Action("EditContent", "ContentPartner", new { id = a.ContentItemGuid })"
+                           data-toggle="modal" data-target="#contentItemModal" title="Edit Content Item">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                        </a>
+
+                        <a class="btn btn-primary" href="@Url.Action("ViewContent", "ContentPartner", new { id = a.ContentItemGuid })" title="View Content Item">
+                            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        </a>
+
+                        <a class="btn btn-danger" href="@Url.Action("DeleteContentItem", "ContentPartner", new { id = a.Id })" title="Delete Content Item">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h3>You have no content items.<br /><small class="text-muted">Submit a new content item using the button above.</small></h3>
+}
+
+
+<div class="modal fade" id="contentItemModal" tabindex="-1" role="dialog" aria-labelledby="contentItemModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        
+    </script>
+
+}
+
+
+
+

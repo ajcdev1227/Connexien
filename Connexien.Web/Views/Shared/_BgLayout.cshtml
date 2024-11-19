@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    @Html.Partial("Partials/_Meta")
+    @Styles.Render("~/Content/base")
+    @Styles.Render("~/Content/fullbg")
+
+    @RenderSection("styles", required: false)
+</head>
+<body style="display:flex; flex-direction:column;" class="bg-overlay">
+
+    @Html.Partial("Partials/_Header", "container")
+
+    @RenderBody()
+
+    <div style="margin-top:auto; padding-top:10px">
+        <div class="col-lg-12">
+            <div class="alert alert-info alert-dismissible cookie-consent" role="alert" style="display:flex;align-items:center;padding-right:15px;">
+                <span style="margin-right:10px;">This site uses cookies to provide you with the best possible user experience.  Please read our&nbsp;<a href="/home/terms" style="text-decoration:underline; color:#31708f">Terms of Service</a>&nbsp;on the use of cookies.</span>
+                <button type="button" class="btn btn-primary" data-dismiss="alert" aria-label="Close" style="margin-left:auto"><span aria-hidden="true">I Accept</span></button>
+            </div>
+        </div>
+        @Html.Partial("Partials/_Footer")
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
+    <script type="text/javascript">
+
+            //****** GLOBAL URL VARIABLES ******
+
+            var avatarUrl = "@Url.Content("~/Content/images/default-avatar.png")";
+            var loadingGif = "@Url.Content("~/Content/images/loading.gif")";
+
+    </script>
+    @Html.Partial("Partials/_Analytics")
+    <script type="text/javascript">
+
+        $(function () {
+
+            //$(".bg-overlay, .color-overlay").height($("body").height());
+
+            //$( window ).resize(function() {
+            //  $(".bg-overlay, .color-overlay").height($("body").height());
+            //});
+
+            var l = $(".navbar-brand img").attr("src");
+            l = l.replace(".png", "_tagline.png");
+            $(".navbar-brand img").attr("src", l);
+
+            //------------------------------------
+
+            var cookieConsent = localStorage.getItem('CookieConsent');
+            if (cookieConsent == '1') {
+                $('.cookie-consent').alert('close');
+            }
+
+            @if (ViewBag.Nav != null)
+            {
+                <text>$("#SideNav li").eq(@ViewBag.Nav).addClass("active");</text>
+            }
+
+            @if (ViewBag.ErrorMsg != null)
+            {
+                <text>toastr.error("@Html.Raw(ViewBag.ErrorMsg)");</text>
+            }
+
+            @if (ViewBag.SuccessMsg != null)
+            {
+                <text>toastr.success("@Html.Raw(ViewBag.SuccessMsg)");</text>
+            }
+
+            $('.cookie-consent').on('closed.bs.alert', function () {
+                localStorage.setItem('CookieConsent', '1');
+            });
+
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+﻿@model Connexien.Web.Models.ProfileModel
+@{
+    ViewBag.Home = "active";
+    ViewBag.Title = "Connexien Service Provider Dashboard";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-3 col-lg-3">
+            @Html.Partial("_SideNav", Model)
+        </div>
+        <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9" style="margin-top: 20px">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Hightlights</div>
+                            <div class="panel-body">
+                                <div class="row panel-row">
+                                    <h6 style="float: left">
+                                        <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;Total Views
+                                    </h6>
+                                    <h6 style="float: right">@Model.ViewsTotal</h6>
+                                </div>
+                                <div class="row panel-row">
+                                    <h6 style="float: left">
+                                        <span class="glyphicon glyphicon-heart"></span>&nbsp;&nbsp;Reviews
+                                    </h6>
+                                    <h6 style="float: right">@Model.Reviews</h6>
+                                </div>
+                                <div class="row panel-row">
+                                    <h6 style="float: left">
+                                        <span class="glyphicon glyphicon-star-empty"></span>&nbsp;&nbsp;Avg Rating
+                                    </h6>
+                                    <h6 style="float: right">@Math.Round(Model.Rating, 1)</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 col-sm-12 col-xs-12">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">External Links</div>
+                            <div class="panel-body">
+                                <div class="row panel-row">
+                                    <h6 style="float: left">
+                                        <span class="glyphicon glyphicon-book"></span>&nbsp;&nbsp;Need additional resources?
+                                    </h6>
+                                    <a href="https://store.connexien.com" target="_blank" style="float: right">
+                                        <h6>Check out our <u>Digital Library</u>.</h6>
+                                    </a>
+                                </div>
+                                <div class="row panel-row">
+                                    @if (!User.IsInRole("contentpartner"))
+                                    {
+                                        <h6 style="float: left">
+                                            <span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;Are you a Content Creator?
+                                        </h6>
+                                        <a href="@Url.Action("ContentPartner", "Provider")" id="contentPartnerApplication" style="float: right" data-toggle="modal" data-target="#contentPartnerModal">
+                                            <h6>See our <u>Contributing Partner Program</u>.</h6>
+                                        </a>
+
+                                    }
+                                    else
+                                    {
+                                        <h6 style="float: left">
+                                            <span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;Are you a Content Creator?
+                                        </h6>
+                                        <a href="@Url.Action("Dashboard", "ContentPartner")" style="float: right">
+                                            <h6>See our <u>Contributing Partner Program</u>.</h6>
+                                        </a>
+                                    }
+                                </div>
+                                <div class="row panel-row">
+                                    <h6 style="float: left">
+                                        <span class="glyphicon glyphicon-inbox"></span>&nbsp;&nbsp;Need a greater audience?
+                                    </h6>
+                                    <a href="@Url.Action("Dashboard", "Publication")" style="float: right">
+                                        <h6>Get published through our <u>Publication Manager</u>.</h6>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h6 class="page-header text-muted">
+                            <div class="pull-right">
+                                <a href="#" data-toggle="modal" data-target="#shareModal" class="text-danger"><span class="glyphicon glyphicon-share"></span> &nbsp;Share Your Profile</a>
+                            </div>
+                            Profile Preview
+                        </h6>
+                        <div class="card">
+                            @Html.Partial("Assets/_Profile", Model)
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    var publicUrl = "https://app.connexien.com/p/" + Model.Vanity;
+    var badge = "https://app.connexien.com/profile/badge/" + Model.ProfileGuid;
+    var icon = "https://app.connexien.com/profile/icon/" + Model.ProfileGuid;
+    var caption = "View " + Model.FirstName + " " + Model.LastName + "'s profile on Connexien";
+    var name = Model.FirstName + " " + Model.LastName + "'s";
+}
+
+<div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="shareModalLabel"><span class="glyphicon glyphicon-share"></span> &nbsp;Share Your Profile</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12"><h5 class="text-danger">Link to your public profile.</h5><br /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <a href="@publicUrl" target="_blank">@publicUrl</a><br /><br /><b>@Html.ActionLink("Customize this url with a vanity name", "Section", "Provider", new { id = "Profile" }, new { @class = "text-info" })</b>.
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <textarea class="static form-control select-all" cols="30" rows="2" readonly="" style="margin: 0px; width:100%;">@publicUrl</textarea>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="row">
+                        <div class="col-xs-12"><h5 class="text-danger">Promote your profile by adding a badge to your email footer, blog, or website. Copy and paste the code from the text box below.</h5><br /></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6"><div class="text-center"><a href="@publicUrl" target="_blank"><img src="@Url.Action("Badge", "Profile", new {id = "badge"})" /></a></div></div>
+                        <div class="col-xs-12 col-sm-6">
+                            <textarea class="static form-control select-all" cols="30" rows="2" readonly="" style="margin: 0px; width:100%;">&lt;a href="@publicUrl"&gt;&lt;img src="@badge" width="148" height="50" border="0" alt="@caption"&gt;&lt;/a&gt;</textarea>
+                            <br />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6"><div class="text-center"><a href="@publicUrl" target="_blank"><img src="@Url.Action("Icon", "Profile", new { id = "icon" })" /> View my profile</a></div></div>
+                        <div class="col-xs-12 col-sm-6">
+                            <textarea class="static form-control select-all" cols="30" rows="2" readonly="" style="margin: 0px; width:100%;">&lt;a href="@publicUrl"&gt;&lt;img src="@icon" width="20px" height="20px" /&gt; View my profile&lt;/a&gt;</textarea>
+                            <br />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6"><div class="text-center"><a href="@publicUrl" target="_blank"><img src="@Url.Action("Icon", "Profile", new { id = "icon" })" /> View @name profile</a></div></div>
+                        <div class="col-xs-12 col-sm-6">
+                            <textarea class="static form-control select-all" cols="30" rows="2" readonly="" style="margin: 0px; width:100%;">&lt;a href="@publicUrl"&gt;&lt;img src="@icon" width="20px" height="20px" /&gt; View @name profile&lt;/a&gt;</textarea>
+                            <br />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="contentPartnerModal" tabindex="-1" role="dialog" aria-labelledby="contentPartnerModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script type="text/javascript">
+
+
+        $(function () {
+
+            $(".select-all").focus(function () {
+                var $this = $(this);
+                $this.select();
+
+                $this.mouseup(function () {
+                    $this.unbind("mouseup");
+                    return false;
+                });
+            });
+
+            $(".profile-editable").mouseover(function () {
+                var url = $(this).attr("data-edit-url");
+
+                if ($(this).find(".profile-editbox").length == 0) {
+                    $(this).append("<div class='profile-editbox'><div class='profile-editbtn'><a href='" + url + "' class='btn btn-warning btn-sm'><span class='glyphicon glyphicon-pencil'></span></a></div></div>");
+                }
+            });
+
+            $(".profile-editable").mouseleave(function () {
+                $(this).find(".profile-editbox").remove();
+            });
+
+        });
+
+    </script>
+}

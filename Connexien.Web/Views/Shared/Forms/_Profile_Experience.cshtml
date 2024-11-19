@@ -1,0 +1,95 @@
+﻿@using Connexien.Web.Models
+@model ProfileModel
+
+
+<div class="form-group">
+    @Html.LabelFor(x => x.Experience, "Industry Experience")
+    <select class="form-control" id="Experience" name="Experience" data-selected="@Model.Experience">
+        <option>1-5 years</option>
+        <option>6-10 years</option>
+        <option>11-15 years</option>
+        <option>16-20 years</option>
+        <option>20+ years</option>
+    </select>
+    @Html.ValidationMessageFor(x => x.Experience)
+    <small class="text-muted">Select # of years of experience in the Financial Services Indrustry</small>
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.Engagements, "Number of Engagements Completed")
+    <select class="form-control" id="Engagements" name="Engagements" data-selected="@Model.Engagements">
+        <option>1-25</option>
+        <option>26-50</option>
+        <option>51-100</option>
+        <option>100+</option>
+    </select>
+    @Html.ValidationMessageFor(x => x.Engagements)
+</div>
+<hr/>
+<div class="form-group">
+    @Html.LabelFor(x => x.EdLevel, "Highest Level of Education")
+    <select class="form-control" id="EdLevel" name="EdLevel" data-selected="@Model.EdLevel">
+        <option>No College</option>
+        <option>Some College (No Degree)</option>
+        <option>Undergraduate Degree(s)</option>
+        <option>Postgraduate Degree(s)</option>
+    </select>
+    @Html.ValidationMessageFor(x => x.EdLevel)
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.SchoolName, "Name of College/University")
+    @Html.TextBoxFor(x => x.SchoolName, new { @class = "form-control", placeholder = "Name of College/University", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.SchoolName)
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.DegreeMajor, "Degree Type/Major")
+    @Html.TextBoxFor(x => x.DegreeMajor, new { @class = "form-control", placeholder = "Degree Type/Major", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.DegreeMajor)
+</div>
+@*
+<div class="form-group">
+    @Html.LabelFor(x => x.YearGrad, "Year Graduated")
+    @Html.TextBoxFor(x => x.YearGrad, new { @class = "form-control", type = "number", placeholder = "Year Graduated", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.YearGrad)
+</div>
+*@
+<hr/>
+<div class="wrap">
+    <p>
+        Do you currently have any Self-Regulatory Organization (SRO) or NASAA licenses or registrations?<br/>               
+        <label class="toggle-show">@Html.RadioButtonFor(m => m.LicenseBit, "true") Yes</label>&nbsp;&nbsp;
+        <label class="toggle-hide">@Html.RadioButtonFor(m => m.LicenseBit, "false") No</label>
+    </p>
+    <div class="toggle-hidden">
+        <div class="form-group">
+            @Html.LabelFor(x => x.Licenses, "Select any/all active licenses & registrations currently held:")
+            <select style="display:none;"></select> @*Below list box does not populate if this blank box is remove... weird *@
+            @Html.ListBoxFor(x => x.Licenses, new MultiSelectList(OptionModel.GetLicenses(Model.Licenses), "Value", "Text"), new { @class = "chosen", multiple = "" })
+            <small class="text-muted">Click on the box again to select multiple options.</small>
+        </div>
+    </div>
+</div>
+<div class="wrap">
+    <p>
+        Do you currently have any industry related designations?<br/>        
+        <label class="toggle-show">@Html.RadioButtonFor(m => m.DesigBit, "true") Yes</label>&nbsp;&nbsp;
+        <label class="toggle-hide">@Html.RadioButtonFor(m => m.DesigBit, "false") No</label>
+    </p>
+    <div class="toggle-hidden">
+        <div class="form-group">
+            @Html.LabelFor(x => x.Designations, "Select any/all active designations currently held:")
+            <select style="display:none;"></select> @*Below list box does not populate if this blank box is remove... weird *@
+            @Html.ListBoxFor(x => x.Designations, new MultiSelectList(OptionModel.GetDesignations(Model.Designations), "Value", "Text"), new { @class = "chosen", multiple = "" })
+            <small class="text-muted">Click on the box again to select multiple options.</small>
+        </div>
+    </div>
+</div>
+<div>
+    <p>
+        Do you have any investment related disclosures or disciplinary history?<br/>               
+        <label class="toggle-show">@Html.RadioButtonFor(m => m.HistoryBit, "true") Yes</label>&nbsp;&nbsp;
+        <label class="toggle-hide">@Html.RadioButtonFor(m => m.HistoryBit, "false") No</label>
+    </p>
+    <div>
+        *For licensed personnel, you may review the background and/or disciplinary history at <a href="http://www.brokercheck.com" target="_blank">www.brokercheck.com</a>
+    </div>
+</div>

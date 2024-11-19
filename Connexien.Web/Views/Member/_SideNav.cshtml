@@ -1,0 +1,30 @@
+﻿@using Connexien.Web.Models
+@model ProfileModel
+
+<div id="SideNav" class="wizard-card">
+    <div class="text-center" style="padding-top:20px;">
+        @*<img class="img-circle" style="width:150px;" src="@Url.Action("Picture", "Profile", new { id = Model.AvatarPic, w = 150, h = 150, t = "avatar"})" />*@
+        <div class="circular-portrait circular-portrait-profile profile-img" style="margin:auto;">
+            <img style="width:150px;" src="https://connexien.blob.core.windows.net/site-profile-images-resized/@Model.AvatarPic.GetSizedImageName(150,150)?w=150&h=150&t=avatar" id="avatar-img"/>
+        </div>
+        <h4>
+            @Model.FirstName @Model.LastName<br />
+            <small>@Model.Title at @Model.CompanyName</small>
+        </h4>
+    </div>
+    <hr />
+    <ul class="nav nav-sidebar">
+        <li><a href="@Url.Action("Index", "Member")"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;Search Service Profiles</a></li>
+        <li><a href="@Url.Action("Publications", "Member")"><span class="glyphicon glyphicon-inbox"></span>&nbsp;&nbsp;Read Publications</a></li>
+        <li class="wrap">
+            <a class="toggle-toggle" href="#"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;Member Profile</a>
+            <ul class="nav nav-sidebar toggle-hidden">
+                <li>@Html.ActionLink("Personal Contact Info", "Section", "Member", new { id = "Personal" }, null)</li>
+                <li>@Html.ActionLink("Company Contact Info", "Section", "Member", new { id = "Company" }, null)</li>
+                <li><hr /></li>
+                <li>@Html.ActionLink("Profile Settings", "Section", "Member", new { id = "Profile" }, null)</li>
+            </ul>
+        </li>
+    </ul>
+
+</div>

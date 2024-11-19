@@ -1,0 +1,238 @@
+﻿@using Connexien.Web.Models
+@model CustomFormRequestModel
+@{
+    var title = "Submit Custom Form Request";
+    var submit = "Submit";
+    var staticClass = "";
+    var required = "required";
+    var fileNote = "";
+
+    var sTypes = OptionModel.GetSectorTypesForFormBuilder();
+
+}
+
+<div id="contentItem-modal-form">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="articleModalLabel"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;@title</h4>
+    </div>
+    @using (Html.BeginForm("SubmitRequest", "CustomForms", FormMethod.Post, new { id = "formContentItem", role = "form", enctype = "multipart/form-data" }))
+    {
+        <div class="modal-body">
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(x => x.ProfileId, new { @class = "static" })
+            @Html.HiddenFor(x => x.ProfileGuid, new { @class = "static" })
+
+            <div class="modal-body form-horizontal">
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Sector, "Industry Sector", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.DropDownListFor(x => x.Sector, sTypes, "- Please select an industry sector -", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.Sector)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Title, "Title", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        <div class="input-group">
+                            <div class="input-group-addon" id="sectorAddon"></div>
+                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control " + staticClass, placeholder = "Form Title" })
+                        </div>
+                        @Html.ValidationMessageFor(x => x.Title)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Description, "Description", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextAreaFor(x => x.Description, new { @class = "form-control " + staticClass, placeholder = "Form Description (Max 1,000 Characters)" })
+                        @Html.ValidationMessageFor(x => x.Description)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Purpose, "Purpose", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextAreaFor(x => x.Purpose, new { @class = "form-control " + staticClass, placeholder = "Form Purpose (Max 1,000 Characters)" })
+                        @Html.ValidationMessageFor(x => x.Purpose)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.KeyFields, "Key fields", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        @Html.TextBoxFor(x => x.KeyFields, new { @class = "form-control " + staticClass, placeholder = "Separate key form fields with a comma" })
+                        @Html.ValidationMessageFor(x => x.KeyFields)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.FrequencyOfUse, "Frequency Of Use", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        <select name="FrequencyOfUseDropDown" id="FrequencyOfUseDropDown" class="form-control">
+                            <option value="">Select frequency of use</option>
+                            <option value="Daily">Daily</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="Quarterly">Quarterly</option>
+                            <option value="Annually">Annually</option>
+                            <option value="Other">Other</option>
+                        </select>
+
+                        <div class="other-frequencyOfUse" style="padding-top:5px; display:none;">
+                            @Html.TextBoxFor(x => x.FrequencyOfUse, new { @class = "form-control " + staticClass, placeholder = "Set your frequency of use" })
+                        </div>
+
+                        @Html.ValidationMessageFor(x => x.FrequencyOfUse)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.IntendedRecipients, "Intended Recipients", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        <select name="IntendedRecipientsDropDown" id="IntendedRecipientsDropDown" class="form-control">
+                            <option value="">Select intended recipients</option>
+                            <option value="Administrative">Administrative</option>
+                            <option value="Operations">Operations</option>
+                            <option value="Non-Registered">Non-Registered</option>
+                            <option value="Registered">Registered</option>
+                            <option value="Supervisors">Supervisors</option>
+                            <option value="Managers">Managers</option>
+                            <option value="Directors">Directors</option>
+                            <option value="Executives">Executives</option>
+                            <option value="All">All</option>
+                            <option value="Other">Other</option>
+                        </select>
+
+                        <div class="other-intendedRecipients" style="padding-top:5px; display:none;">
+                            @Html.TextBoxFor(x => x.IntendedRecipients, new { @class = "form-control " + staticClass, placeholder = "Set your intended recipient" })
+                        </div>
+
+                        @Html.ValidationMessageFor(x => x.IntendedRecipients)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.PreferredFormat, "Preferred Format", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        <select name="PreferredFormatDropDown" id="PreferredFormatDropDown" class="form-control">
+                            <option value="">Select preferred format</option>
+                            <option value="Word">Word</option>
+                            <option value="Excel">Excel</option>
+                            <option value="PDF">PDF</option>
+                            <option value="Other">Other</option>
+                        </select>
+
+                        <div class="other-preferredFormat" style="padding-top:5px; display:none;">
+                            @Html.TextBoxFor(x => x.PreferredFormat, new { @class = "form-control " + staticClass, placeholder = "Set your preferred format" })
+                        </div>
+
+                        @Html.ValidationMessageFor(x => x.PreferredFormat)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(x => x.NeedsRecipientSignature)
+                                Recipient Signature & Date Field?
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(x => x.NeedsSupervisorSignature)
+                                Supervisor Signature & Date Field?
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(x => x.File, "Attached Example(s) (if applicable)", new { @class = "col-sm-3 control-label" })
+                    <div class="col-sm-9">
+                        <input type="file" id="File" name="File" title="No File Selected" accept=".docx, .doc, .pdf, .txt">
+                        <span class="fileMsg text-muted">.doc .docx .pdf .txt</span>
+                        @Html.ValidationMessageFor(x => x.File)
+                        @Html.Raw(fileNote)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(x => x.AcceptedTermsAndConditions)
+                                I Agree to the <u>@Html.ActionLink("Terms & Conditions", "Terms", "Home", null, new { target = "_blank" })</u>
+                            </label>
+                            <div>@Html.ValidationMessageFor(x => x.AcceptedTermsAndConditions)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            <button id="submitContentItem" type="submit" class="btn btn-primary btn-submit" data-loading-text="Processing...">@submit</button>
+        </div>
+    }
+</div>
+
+<script>
+    $.validator.unobtrusive.parse($("form"));
+
+    function dismissContentItemModal() {
+        $('#contentItemModal').modal('hide');
+        location.reload();
+    }
+
+    $('#formContentItem').submit(function (e) {
+        e.preventDefault();
+
+        var form = $('#formContentItem');
+
+        if (form.valid()) {
+            var formData = new FormData(form.get(0));
+
+            var totalFiles = document.getElementById("File").files.length;
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById("File").files[i];
+
+                formData.append("File", file);
+            }
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SubmitRequest", "CustomForms")',
+                data: formData,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    toastr.success(response.statusText);
+                    dismissContentItemModal();
+                    return true;
+                },
+                error: function (error) {
+                    toastr.error(error.statusText);
+                    return false;
+                }
+            });
+
+            return false;
+        }
+
+        return false;
+    });
+</script>
+
+

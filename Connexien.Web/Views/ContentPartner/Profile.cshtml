@@ -1,0 +1,144 @@
+﻿@using Connexien.Web.Models
+@model ProfileModel
+@{
+    ViewBag.Home = "active";
+    ViewBag.Title = "Connexien Contributing Partner Dashboard";
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="hidden-xs col-sm-3 col-md-3 col-lg-3">
+            @Html.Partial("_SideNav", Model)
+        </div>
+        <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+            <h4 class="page-header"><span class="glyphicon glyphicon-list-alt" style="vertical-align: -3px;"></span>&nbsp;&nbsp;Service Profile: Profile Settings</h4>
+
+            @using (Html.BeginForm("SaveProfile", "ContentPartner", new { id = "Profile" }, FormMethod.Post, new { @class = "form-provider-setup", role = "form" }))
+            {
+                <input type="hidden" name="profileId" value="@Model.Id" />
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Vanity, "Vanity Url")
+                    @Html.TextBoxFor(x => x.Vanity, new { @class = "form-control", placeholder = "Vanity Name", autofocus = "" })
+                    @Html.ValidationMessageFor(x => x.Vanity)
+                    <div class="alert alert-info">Change your profile url to something a little easier to remember: <b>https://app.connexien.com/p/[Vanity]</b></div>
+                </div>
+                
+                <div class="text-right">
+                    <button type="submit" class="btn btn-lg btn-success btn-submit" data-loading-text="Saving...">Save</button>
+                </div>
+            }
+            <hr />
+            <h3 style="margin-top:0;"><small class="text-muted">Profile Picture:</small></h3>
+            <div class="well">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-4 wrap" style="padding-left:0;">
+                            @*<img src="@Url.Action("Picture", "Profile", new { id = Model.AvatarPic, w = 80, h = 80, t = "avatar" })" style="width:80px; height:80px;" />*@
+                            <img src="https://connexien.blob.core.windows.net/site-profile-images-resized/@Model.AvatarPic.GetSizedImageName(80,80)?w=80&h=80&t=avatar" style="width:80px;" id="profile-img"/>
+
+                            @if (Model.AvatarPic != "default.jpg")
+                            {
+                                using (Html.BeginForm("RemovePic", "ContentPartner", new { id = Model.AvatarPic }, FormMethod.Post, new { id = "formPic", role = "form" }))
+                                {
+                                    <br /><br />
+                                    <button type="button" class="btn btn-danger btn-confirm" data-msg="Remove this picture?">Remove</button>
+                                }
+                            }
+                        </div>
+                               
+                        <div class="col-xs-12 col-sm-8 wrap" style="padding-left:0; overflow:hidden;">
+                            @using (Html.BeginForm("SaveSettings", "ContentPartner", FormMethod.Post, new { id = "formPic", role = "form", enctype = "multipart/form-data" }))
+                            {
+                                <input type="hidden" name="type" value="avatar" />
+                                <input type="hidden" name="id" value="@Model.Id" /> 
+                                <input type="file" id="profile-pic" name="file" accept=".jpg, .jpeg, .gif, .png" />
+                                <br />
+                                <button type="submit" class="profile-pic-save btn btn-primary btn-submit" data-loading-text="Saving...">Save</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+                
+            <h3 style="margin-top:0;"><small class="text-muted">Profile Cover Picture:</small></h3>
+            <div class="well">
+                <div class="container-fluid">
+                    <div class="row">
+                            <div class="col-xs-12 col-sm-4 wrap" style="padding-left:0;">
+                                @*<img src="@Url.Action("Picture", "Profile", new { id = Model.CoverPic, w = 200, h = 80, t = "cover", fill = false })" style="width:200px; height:80px;" />*@
+                                <img src="https://connexien.blob.core.windows.net/site-profile-images-resized/@Model.CoverPic.GetSizedImageName(200,80)?w=200&h=80&t=cover&fill=false" style="width:200px; height:80px;" id="cover-img"/>
+
+                                @if (Model.CoverPic != "default.jpg")
+                                {
+                                    using (Html.BeginForm("RemovePic", "ContentPartner", new { id = Model.CoverPic }, FormMethod.Post, new { id = "formPic", role = "form" }))
+                                    {
+                                        <br/>
+                                        <button type="button" class="btn btn-danger btn-confirm" data-msg="Remove this picture?">Remove</button>
+                                    }
+                                }
+                            </div>
+                               
+                            <div class="col-xs-12 col-sm-8 wrap" style="padding-left:0; overflow:hidden;">
+                                    @using (Html.BeginForm("SaveSettings", "ContentPartner", FormMethod.Post, new { id = "formPic", role = "form", enctype = "multipart/form-data" }))
+                                    {
+                                        <input type="hidden" name="type" value="cover" />
+                                        <input type="hidden" name="id" value="@Model.Id" />
+                                        <input type="file" id="cover-pic" name="file" accept=".jpg, .jpeg, .gif, .png" />
+                                        <br />
+                                        <button type="submit" class="profile-pic-save btn btn-primary btn-submit" data-loading-text="Saving...">Save</button>
+                                    }
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+
+    <script>
+        $(function () {
+
+            $(".profile-pic-save").disable(true);
+
+            // Prepare the preview for profile picture
+            var changePic = function (e, pic_id) {
+                if (e.files && e.files[0]) {
+                    var cur = $(e);
+                    var ext = cur.val().split('.').pop().toLowerCase();
+                    var btn = cur.closest(".wrap").find(".profile-pic-save");
+                    if ($.inArray(ext, ['gif', 'png', 'jpg', 'jpeg']) == -1) {
+                        cur.replaceWith(cur.val('').clone(true));
+                        btn.disable(true);
+                        toastr.error("Picture could not be loaded, please try selecting a different picture.");
+                    } else {
+                        btn.disable(false);
+
+                        var reader = new window.FileReader();
+                        reader.onload = function (e) {
+                            $(pic_id).attr('src', e.target.result).fadeIn("slow");
+                            if (pic_id == "#profile-img")
+                                $("#avatar-img").attr('src', e.target.result).fadeIn("slow");
+                        };
+                        reader.readAsDataURL(e.files[0]);
+                    }
+                }
+            }
+
+            $("#profile-pic").on('change', function () {
+                changePic(this, "#profile-img");
+            });
+
+            $("#cover-pic").on('change', function () {
+                changePic(this, "#cover-img");
+            });
+
+            $(".profile-pic-save").click(function () {
+                $(this).button("loading");
+            });
+        });
+    </script>
+}             
+    

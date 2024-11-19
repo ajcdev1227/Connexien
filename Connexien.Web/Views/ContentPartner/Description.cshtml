@@ -1,0 +1,37 @@
+﻿@{
+    ViewBag.Title = "Connexien: Contributing Partner Description";
+    Layout = "~/Views/Shared/_BgLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            <div class="wizard-card">
+                <div class="modal-header">
+                    <h3 class="modal-title text-center">
+                        We’re Building A Community of Insight
+                    </h3>
+                </div>
+                <div class="modal-body text-center">
+                    <p>
+                        We all need better access to quality resources. If you’re an industry professional who has originally authored forms, documents or checklists,
+                        we’d like to help you share them with the greater financial services community.
+                        Our process is simple:  build an industry <u><a href="https://store.connexien.com/" style="color:blue;">Digital Library</a></u>
+                        that allows both authors and users to grow and prosper. To get started simply create your profile, share and track your content and get
+                        paid for selling your work.  Become a Contributing Partner today!
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6" style="padding-top:10px">
+                            <a id="alreadyHaveAccount" href="@Url.Action("Login","Account", new { ReturnUrl = Url.Action("Setup","ContentPartner") })" class="btn btn-default btn-block">Already have an Account? Click Here.</a>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6" style="padding-top:10px">
+                            <a id="startContentPartnerApplication" href="@Url.Action("Register", "Account", new { id = "contentpartner" })" class="btn btn-primary btn-submit btn-block">Click here to get started</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+﻿@using Connexien.Web.Models
+@model ProfileModel
+@{
+    ViewBag.Home = "active";
+    ViewBag.Title = "Connexien Member Dashboard";
+
+    Model.ServiceTypes = Model.ServiceTypes ?? new long[0];
+    Model.ProductTypes = Model.ProductTypes ?? new long[0];
+    
+    var sTypes = OptionModel.GetServiceTypes();
+    var pTypes = OptionModel.GetProductTypes();
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 col-lg-4">
+        
+        @Html.Partial("_SideNav", Model)
+        
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+
+            <div class="wizard-card">
+                <div class="modal-header">
+                    <h4 class="modal-title text-center">Welcome to Connexien
+                    <br/><small class="text-muted">Firm Search Portal</small></h4>
+                </div>
+                <div class="modal-body">
+                    
+
+                    <h2 class="text-center" style="color: #fff;">Search Service Providers</h2>
+                    @using (Html.BeginForm("Index", "Search", FormMethod.Post, new { @class = "form-search", role = "form" }))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.ServiceTypes, "Select services to search for:")
+                            <select id="ServiceTypes" name="ServiceTypes" class="chosen" multiple="" data-selected="@string.Join(",", Model.ServiceTypes)">
+                                @foreach (var s in sTypes)
+                                {
+                                    <optgroup label="@s.Key">
+                                        @foreach (var v in s.Value)
+                                        {
+                                            <option value="@v.Value">@v.Text</option>
+                                        }
+                                    </optgroup>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.ProductTypes, "Select products to search for:")
+                            <select id="ProductTypes" name="ProductTypes" class="chosen" multiple="" data-selected="@string.Join(",", Model.ProductTypes)">
+                                @foreach (var p in pTypes)
+                                {
+                                    <optgroup label="@p.Key">
+                                        @foreach (var v in p.Value)
+                                        {
+                                            <option value="@v.Value">@v.Text</option>
+                                        }
+                                    </optgroup>
+                                }
+                            </select>
+                        </div>
+                        <center><button class="btn btn-lg btn-primary btn-submit" data-loading-text="Searching...">Search</button></center>
+                    }
+
+                </div>
+            </div>
+
+        
+        </div>
+    </div>
+</div>

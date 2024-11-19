@@ -1,0 +1,182 @@
+﻿@using Connexien.Web.Models
+@model ProfileModel
+@{
+
+    Model.ServiceTypes = Model.ServiceTypes ?? new long[0];
+    Model.ProductTypes = Model.ProductTypes ?? new long[0];
+
+    var sTypes = OptionModel.GetServiceTypes();
+    var pTypes = OptionModel.GetProductTypes();
+
+    Model.ServiceStates = Model.ServiceStates ?? new string[0];
+    Model.HourlyRate = Model.HourlyRate == 0 ? 500 : Model.HourlyRate;
+}
+
+<div>
+    @using (Ajax.BeginForm("Filter", "Search", null, new AjaxOptions { HttpMethod = "POST", OnBegin = "BeginFilter(this)", OnComplete = "CompleteFilter(xhr)" }, new { id = "form-filter", role = "form" }))
+    {
+
+        <h5 class="page-header text-primary">
+            @*<button class="btn btn-success btn-sm btn-submit pull-right" data-loading-text="Updating..." style="line-height:1;">Update Search</button>*@
+            <div id="updating" class="pull-right text-success" style="display: none;"><img src="@Url.Content("~/Content/images/loader.gif")" /></div>
+            Refine Your Search
+        </h5>
+
+        <h5 class="text-primary filter-title"><a class="collapsed text-primary" data-toggle="collapse" href="#IndustryFocusCollapse">Industry Focus:</a></h5>
+        <div id="IndustryFocusCollapse" class="collapse">
+            <select style="display:none;"></select> @*Below list box does not populate if this blank box is remove... weird *@
+            @Html.ListBoxFor(x => x.Focuses, new MultiSelectList(OptionModel.GetFocuses(Model.Focuses), "Value", "Text"), new { @class = "chosen", multiple = "" })
+        </div>
+
+        <h5 class="text-primary filter-title"><a class="collapsed text-primary" data-toggle="collapse" href="#ServicesCollapse">Services: <small class="text-muted">Max 3</small></a></h5>
+        <div id="ServicesCollapse" class="collapse">
+            <select id="ServiceTypes" name="ServiceTypes" class="chosen-limit" multiple="" data-selected="@string.Join(",", Model.ServiceTypes)">
+                @foreach (var s in sTypes)
+                {
+                    <optgroup label="@s.Key">
+                        @foreach (var v in s.Value)
+                        {
+                            <option value="@v.Value">@v.Text</option>
+                        }
+                    </optgroup>
+                }
+            </select>
+        </div>
+
+        <h5 class="text-primary filter-title"><a class="collapsed text-primary" data-toggle="collapse" href="#ProductRelatedCollapse">Product Related (Optional): <small class="text-muted">Max 3</small></a></h5>
+        <div id="ProductRelatedCollapse" class="collapse">
+            <select id="ProductTypes" name="ProductTypes" class="chosen-limit" multiple="" data-selected="@string.Join(",", Model.ProductTypes)">
+                @foreach (var p in pTypes)
+                {
+                    <optgroup label="@p.Key">
+                        @foreach (var v in p.Value)
+                        {
+                            <option value="@v.Value">@v.Text</option>
+                        }
+                    </optgroup>
+                }
+            </select>
+        </div>
+
+        <h5 class="text-primary filter-title"><a class="collapsed text-primary" data-toggle="collapse" href="#LicensingCollapse">Licensing:</a></h5>
+        <div id="LicensingCollapse" class="collapse">
+            @Html.ListBoxFor(x => x.Licenses, new MultiSelectList(OptionModel.GetLicenses(Model.Licenses), "Value", "Text"), new { @class = "chosen", multiple = "" })
+        </div>
+
+        <h5 class="text-primary filter-title"><a class="collapsed text-primary" data-toggle="collapse" href="#DesignationsCollapse">Designations:</a></h5>
+        <div id="DesignationsCollapse" class="collapse">
+            @Html.ListBoxFor(x => x.Designations, new MultiSelectList(OptionModel.GetDesignations(Model.Designations), "Value", "Text"), new { @class = "chosen", multiple = "" })
+        </div>
+
+        <h5 class="text-primary filter-title"><a class="collapsed text-primary" data-toggle="collapse" href="#ServiceStatesCollapse">Service States:</a></h5>
+        <div id="ServiceStatesCollapse" class="collapse">
+            <select id="ServiceStates" name="ServiceStates" class="chosen" multiple="" data-selected="@string.Join(",", Model.ServiceStates)">
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AZ">Arizona</option>
+                <option value="AR">Arkansas</option>
+                <option value="CA">California</option>
+                <option value="CO">Colorado</option>
+                <option value="CT">Connecticut</option>
+                <option value="DE">Delaware</option>
+                <option value="DC">District Of Columbia</option>
+                <option value="FL">Florida</option>
+                <option value="GA">Georgia</option>
+                <option value="HI">Hawaii</option>
+                <option value="ID">Idaho</option>
+                <option value="IL">Illinois</option>
+                <option value="IN">Indiana</option>
+                <option value="IA">Iowa</option>
+                <option value="KS">Kansas</option>
+                <option value="KY">Kentucky</option>
+                <option value="LA">Louisiana</option>
+                <option value="ME">Maine</option>
+                <option value="MD">Maryland</option>
+                <option value="MA">Massachusetts</option>
+                <option value="MI">Michigan</option>
+                <option value="MN">Minnesota</option>
+                <option value="MS">Mississippi</option>
+                <option value="MO">Missouri</option>
+                <option value="MT">Montana</option>
+                <option value="NE">Nebraska</option>
+                <option value="NV">Nevada</option>
+                <option value="NH">New Hampshire</option>
+                <option value="NJ">New Jersey</option>
+                <option value="NM">New Mexico</option>
+                <option value="NY">New York</option>
+                <option value="NC">North Carolina</option>
+                <option value="ND">North Dakota</option>
+                <option value="OH">Ohio</option>
+                <option value="OK">Oklahoma</option>
+                <option value="OR">Oregon</option>
+                <option value="PA">Pennsylvania</option>
+                <option value="RI">Rhode Island</option>
+                <option value="SC">South Carolina</option>
+                <option value="SD">South Dakota</option>
+                <option value="TN">Tennessee</option>
+                <option value="TX">Texas</option>
+                <option value="UT">Utah</option>
+                <option value="VT">Vermont</option>
+                <option value="VA">Virginia</option>
+                <option value="WA">Washington</option>
+                <option value="WV">West Virginia</option>
+                <option value="WI">Wisconsin</option>
+                <option value="WY">Wyoming</option>
+            </select>
+        </div>
+
+        <div class="wrap">
+            <div class="form-group">
+                <h5 class="text-primary filter-title"><a class="collapsed text-primary" data-toggle="collapse" href="#FeeStructureCollapse">Fee Structure:</a></h5>
+                <div id="FeeStructureCollapse" class="collapse">
+                    <select class="form-control" id="FeeType" name="FeeType" data-selected="@Model.FeeType">
+                        <option value="both" class="toggle-show">Either hourly or flat</option>
+                        <option value="hourly" class="toggle-show">Hourly Fee</option>
+                        <option value="flat" class="toggle-hide">Flat Fee</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group toggle-hidden">
+                <h5 class="text-primary filter-title"><a class="collapsed text-primary" data-toggle="collapse" href="#FeeRangeCollapse">Fee Range:</a></h5>
+                <div id="FeeRangeCollapse" class="collapse">
+                    <div style="padding:20px;">
+                        <input id="HourlyRate" name="HourlyRate" data-slider-id='HourlyRate' type="text" data-slider-value="@Model.HourlyRate" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h5 class="text-primary filter-title"><a class="collapsed text-primary" data-toggle="collapse" href="#AvailabilityCollapse">Project Availability:</a></h5>
+        <div id="AvailabilityCollapse" class="collapse">
+            <select class="form-control" id="Availability" name="Availability" data-selected="@Model.Availability">
+                <option value="0"></option>
+                <option value="all">Both short and long term projects</option>
+                <option value="short only">Short‐term projects only</option>
+                <option value="none">Currently unavailable</option>
+            </select>
+        </div>
+
+        <h5 class="text-primary filter-title"><a class="collapsed text-primary" data-toggle="collapse" href="#ExperienceCollapse">Years Experience:</a></h5>
+        <div id="ExperienceCollapse" class="collapse">
+            <select class="form-control" id="Experience" name="Experience" data-selected="@Model.Experience">
+                <option value="0"></option>
+                <option>1-5 years</option>
+                <option>6-10 years</option>
+                <option>11-15 years</option>
+                <option>16-20 years</option>
+                <option>20+ years</option>
+            </select>
+        </div>
+
+        <h5 class="text-primary filter-title"><a class="collapsed text-primary" data-toggle="collapse" href="#EdLevelCollapse">Educational Background:</a></h5>
+        <div id="EdLevelCollapse" class="collapse">
+            <select class="form-control" id="EdLevel" name="EdLevel" data-selected="@Model.EdLevel">
+                <option value="0"></option>
+                <option value="No College">No College</option>
+                <option value="Some College (No Degree)">Some College (No Degree)</option>
+                <option value="Undergraduate Degree(s)">Undergraduate Degree(s) (BA., B.S., etc.)</option>
+                <option value="Postgraduate Degree(s)">Postgraduate Degree(s) (Master's, PhD, etc.)</option>
+            </select>
+        </div>
+    }
+</div>

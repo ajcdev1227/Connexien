@@ -1,0 +1,101 @@
+﻿@model Connexien.Web.Models.SearchModel
+<div>
+    @if (Model.Profiles == null || !Model.Profiles.Any())
+    {
+        <h4 class="text-muted text-center" style="padding-top:100px">
+            No results found<br />
+            <small>Try altering your search filters.</small>
+        </h4>
+    }
+    else
+    {
+        <h5 class="text-primary">
+            Service Provider Search<br />
+            <small class="text-muted">Showing @Model.Profiles.Count results.</small>
+        </h5>
+
+        <ul class="list-group">
+            @foreach (var p in Model.Profiles)
+            {
+                var services = Model.ServiceTypes.Intersect(p.ServiceTypes);
+                var products = Model.ProductTypes.Intersect(p.ProductTypes);
+
+                var lastName = User.Identity.IsAuthenticated ? p.LastName : p.LastName.Substring(0, 1) + ".";
+                var company = User.Identity.IsAuthenticated ? "at " + p.CompanyName : "";
+
+                <li class="list-group-item">
+                    <div class="media">
+                        <div class="media-left">
+                            <a href="@Url.Action("Index", "Profile", new { id = p.ProfileGuid })">
+                                <div class="circular-portrait circular-portrait-thumb">
+                                    <img src="https://connexien.blob.core.windows.net/site-profile-images-resized/@p.AvatarPic.GetSizedImageName(80,80)" />
+                                </div>
+                            </a>
+                        </div>
+                        <div class="media-body">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-5">
+                                        <h5 class="media-heading">
+                                            <a href="@Url.Action("Index", "Profile", new { id = p.ProfileGuid })">@p.FirstName @lastName</a><br />
+                                            <small>
+                                                <span class="glyphicon glyphicon-briefcase"></span>&nbsp;&nbsp; @p.Title @company<br />
+                                                <span class="glyphicon glyphicon-map-marker"></span>&nbsp;&nbsp; @p.City, @p.State<br />
+                                            </small>
+                                        </h5>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-7">
+                                        <div class="pull-right">
+                                            <br />
+                                            <a href="@Url.Action("Index", "Profile", new { id = p.ProfileGuid })" class="btn btn-primary btn-sm">View Full Profile</a>
+                                        </div>
+                                        <h6>
+                                            @if (p.AbsRating == 0)
+                                            {
+                                                <small class="text-danger">No reviews</small>
+                                            }
+                                            else
+                                            {
+                                                for (var i = 0; i < p.AbsRating; i++)
+                                                {
+                                                    <span class="glyphicon glyphicon-star text-danger"></span>
+                                                }
+                                                for (var i = 0; i < 5 - p.AbsRating; i++)
+                                                {
+                                                    <span class="glyphicon glyphicon-star-empty text-danger"></span>
+                                                }
+                                            }
+                                        </h6>
+                                        <h5>@p.Engagements <small class="text-primary">Engagements</small></h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        @foreach (var s in services)
+                                        {
+                                            <span class="label label-muted label-lg" style="display: inline-block">@Model.ServiceRefs[s]</span>
+                                        }
+                                        @foreach (var pr in products)
+                                        {
+                                            <span class="label label-default label-lg" style="display: inline-block">@Model.ProductRefs[pr]</span>
+                                        }
+                                    </div>
+                                </div>
+
+                                @if (!string.IsNullOrEmpty(p.Summary.Left(250)))
+                                {
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <span>@p.Summary.Left(250)</span> <a href="@Url.Action("Index", "Profile", new { id = p.ProfileGuid })">Read More</a>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+</div>

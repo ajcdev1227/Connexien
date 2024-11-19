@@ -1,0 +1,77 @@
+﻿body {
+    background: #fff;
+}
+
+.bg-overlay {
+    background:#222222 url('') no-repeat center center;
+    background-size: cover;
+    height: 252px;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+}
+.color-overlay {
+    background: -moz-linear-gradient(top, rgba(125,185,232,0) 0%, rgba(0,0,0,0.74) 100%);
+    background: -webkit-linear-gradient(top, rgba(125,185,232,0) 0%,rgba(0,0,0,0.74) 100%);
+    background: linear-gradient(to bottom, rgba(125,185,232,0) 0%,rgba(0,0,0,0.74) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007db9e8', endColorstr='#bd000000',GradientType=0 );
+    color:#007db9;
+    height: 252px;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 0;
+}
+
+
+header.navbar { margin-bottom: 20px;}
+
+header.navbar-default {
+    background: none;
+    box-shadow: none;
+}
+
+header.navbar-static-top {
+    border: 0px;
+}
+
+header  .navbar-brand img {
+    height: auto !important;
+    width: 225px !important;
+    margin: 12px 0 0 -3px;
+}
+
+header .navbar-right {
+    margin: 28px 0 0 0;
+    font-size: 16px;
+}
+
+header .nav .nav-divider 
+{
+    background: #fff;
+    height: 100%;
+    margin: 12px 0;
+    width: 2px;
+}
+
+header .navbar-right a 
+{
+    padding: 12px 16px;
+}
+
+
+.profile .profile-cover
+{
+    background-color:transparent;
+    background-image: url('') !important;
+}
+        
+.profile .profile-cover-shade
+{
+    background: transparent;
+}

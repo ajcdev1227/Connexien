@@ -1,0 +1,40 @@
+﻿@model Connexien.Web.Models.ProfileModel
+
+<div class="form-group">
+    @Html.LabelFor(x => x.Title, "Title/Position")
+    @Html.TextBoxFor(x => x.Title, new { @class = "form-control", placeholder = "Title/Position", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.Title)
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.PersonalPhone, "Phone")
+    @Html.TextBoxFor(x => x.PersonalPhone, new { @class = "form-control", placeholder = "Phone", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.PersonalPhone)
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.PersonalFax, "Fax")
+    @Html.TextBoxFor(x => x.PersonalFax, new { @class = "form-control", placeholder = "Fax", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.PersonalFax)
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.PersonalEmail, "Email Address")
+    @Html.TextBoxFor(x => x.PersonalEmail, new { @class = "form-control", placeholder = "Email Address", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.PersonalEmail)
+</div>
+@*
+<div class="form-group">
+    @Html.LabelFor(x => x.PersonalWebsite, "Website Url")
+    @Html.TextBoxFor(x => x.PersonalLinkedIn, new { @class = "form-control", placeholder = "Website Url", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.PersonalLinkedIn)
+</div>
+*@
+<div class="form-group">
+    @Html.LabelFor(x => x.PersonalLinkedIn, "LinkedIn Url")
+    @Html.TextBoxFor(x => x.PersonalLinkedIn, new { @class = "form-control", placeholder = "LinkedIn Url", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.PersonalLinkedIn)
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(x => x.Summary, "Summary")
+    @Html.TextAreaFor(x => x.Summary, new { @class = "form-control" })
+    @Html.ValidationMessageFor(x => x.Summary)
+</div>

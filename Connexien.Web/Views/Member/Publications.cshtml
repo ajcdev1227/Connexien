@@ -1,0 +1,32 @@
+﻿@model Connexien.Web.Models.ProfileModel
+@{
+    ViewBag.Home = "active";
+    ViewBag.Title = "Connexien Service Provider Dashboard";
+}
+<div class="container">
+    <div class="row">
+        <div class="hidden-xs col-sm-4 col-md-4 col-lg-4">
+            @Html.Partial("_SideNav", Model)
+        </div>
+        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+            <div style="margin-top: 40px;">
+                @*<a href="#" class="btn btn-success btn-sm pull-right"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Submit Publication</a>*@
+                <h4 class="page-header"><span class="glyphicon glyphicon-inbox" style="vertical-align: -3px;"></span>&nbsp;&nbsp;Publications Search</h4>
+            </div>
+
+            @using (Html.BeginForm("Search", "Publish", FormMethod.Post, new { @class = "form-search", role = "form" }))
+            {
+                <div class="form-group" style="margin-top:5%; background:#fff; padding:6px; border-radius:6px;">
+                    <input name="q" type="text" class="form-control" placeholder="Enter keywords to search." /><br/>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-submit btn-lg" style="border-radius:6px;" data-loading-text="Searching...">Search</button>
+                    </div>
+                    
+
+                    
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

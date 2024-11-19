@@ -1,0 +1,54 @@
+﻿@using Connexien.Web.Models
+@model ProfileModel
+<div id="SideNav" class="wizard-card">
+    <div class="text-center" style="padding-top: 20px;">
+        @*<img class="img-circle" style="width:150px;" src="@Url.Action("Picture", "Profile", new { id = Model.AvatarPic, w = 150, h = 150, t = "avatar" })" />*@
+        <div class="circular-portrait circular-portrait-profile profile-img text-center" style="margin:auto;">
+            <img style="width:150px;" src="https://connexien.blob.core.windows.net/site-profile-images-resized/@Model.AvatarPic.GetSizedImageName(150,150)?w=150&h=150&t=avatar" id="avatar-img" />
+        </div>
+        <h4>
+            @Model.FirstName @Model.LastName<br />
+            <small>@Model.Title at @Model.CompanyName</small>
+        </h4>
+    </div>
+    <hr />
+    <ul class="nav nav-sidebar">
+        <li><a href="@Url.Action("Index", "Provider")"><span class="glyphicon glyphicon-th"></span>&nbsp;&nbsp;Overview</a></li>
+        <li class="wrap">
+            <a class="toggle-toggle" href="#">
+                <span class="glyphicon glyphicon-list-alt"></span>&nbsp;&nbsp;Edit Profile
+            </a>
+            <ul class="nav nav-sidebar toggle-hidden">
+                <li>@Html.ActionLink("Personal Contact Info", "Section", "Provider", new { id = "Personal" }, null)</li>
+                <li>@Html.ActionLink("Company Contact Info", "Section", "Provider", new { id = "Company" }, null)</li>
+                <li>@Html.ActionLink("Experience & Qualifications", "Section", "Provider", new { id = "Experience" }, null)</li>
+                <li>@Html.ActionLink("Industry Focus & Fees", "Section", "Provider", new { id = "Industry" }, null)</li>
+                <li>@Html.ActionLink("Area(s) of Focus & Expertise", "Section", "Provider", new { id = "Expertise" }, null)</li>
+                <li>
+                    <hr />
+                </li>
+                <li>@Html.ActionLink("Profile Settings", "Section", "Provider", new { id = "Profile" }, null)</li>
+            </ul>
+        </li>
+        <li>
+            <a href="/publication/dashboard">
+                <span class="glyphicon glyphicon-inbox"></span>&nbsp;&nbsp;Publications
+                <span class="badge pull-right">@Model.Articles.Count()</span>
+            </a>
+        </li>
+        <li>
+            <a href="https://store.connexien.com" target="_blank">
+                <span class="glyphicon glyphicon-book"></span>&nbsp;&nbsp;Resources
+            </a>
+        </li>
+
+        @if (User.IsInRole("contentpartner"))
+        {
+            <li>
+                <a href="@Url.Action("Dashboard", "ContentPartner")">
+                    <span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;Contributing Partner
+                </a>
+            </li>
+        }
+    </ul>
+</div>

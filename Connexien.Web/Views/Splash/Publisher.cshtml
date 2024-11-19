@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Connexien: Publisher";
+    Layout = "~/Views/Shared/_SplashLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            <div class="wizard-card">
+                <div class="modal-header">
+                    <h3 class="modal-title text-center">
+                        Get Published and Get Discovered
+                    </h3>
+                </div>
+                <div class="modal-body text-center">
+                    <p>
+                        If you're a subject matter expert or other industry professional who produces white papers, articles, commentaries, 
+                        and position statements focusing on topics related to the financial services industry, we want to hear from you. 
+                        Simply sign-up, select your industry focus, pay and post your work.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6" style="padding-top:10px">
+                            <a id="alreadyHaveAccount" href="@Url.Action("Login","Account", new { ReturnUrl = Url.Action("Login","Account") })" class="btn btn-default btn-block">Already have an Account? Click Here.</a>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-6" style="padding-top:10px">
+                            <a id="startApplication" href="@Url.Action("Register", "Account")" class="btn btn-primary btn-submit btn-block">Click here to get started</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

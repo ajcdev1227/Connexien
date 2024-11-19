@@ -1,0 +1,46 @@
+﻿@model Connexien.Web.Models.LoginModel
+@{
+    ViewBag.Title = "Connexien Login";
+    Layout = "~/Views/Shared/_BgLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            <div class="wizard-card">
+                <div class="modal-header">
+                    <h4 class="modal-title">Please Login</h4>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form-signin", role = "form" }))
+                    {
+                        @Html.HiddenFor(x => x.ReturnUrl)
+
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Email, "Email Address")
+                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", placeholder = "Email", autofocus = "" })
+                            @Html.ValidationMessageFor(x => x.Email)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Password, "Password")
+                            @Html.PasswordFor(x => x.Password, new { @class = "form-control", placeholder = "Password" })
+                            @Html.ValidationMessageFor(x => x.Password)
+                        </div>
+                        <div class="form-group" style="padding-left:20px;">    
+                            @Html.CheckBoxFor(x => x.RememberMe)
+                            @Html.LabelFor(x => x.RememberMe, "Remember Me") 
+                        </div>
+                        <hr />
+                        <button class="btn btn-lg btn-primary btn-block btn-submit" type="submit" data-loading-text="Logging in...">Login</button>
+                    }
+                    <br />
+                    <div class="text-center">
+                        @Html.ActionLink("Forgot your password?", "Forgot", "Account", new { style = "text-decoration:underline; color:blue;" })
+                        <hr />
+                        No account yet? @Html.ActionLink("Click here", "Register", "Account", new {style="text-decoration:underline; color:blue;"}) to create an account.<br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

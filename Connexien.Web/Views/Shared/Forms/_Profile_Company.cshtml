@@ -1,0 +1,123 @@
+﻿@model Connexien.Web.Models.ProfileModel
+@{
+    Model.State = Model.State ?? "";
+}
+
+<div class="form-group">
+    @*
+    @Html.LabelFor(x => x.CompanySize, "Company Affiliation")
+    <select class="form-control" id="CompanySize" name="CompanySize">
+        <option>Solo Practitioner</option>
+        <option>Affiliated with Small-Size Firm (1-25)</option>
+        <option>Affiliated with Mid-Size Firm (26-50)</option>
+        <option>Affiliated with Large-Size Firm (50+)</option>
+    </select>
+    *@
+
+    @Html.LabelFor(x => x.CompanySize, "Company Size")
+    <select class="form-control" id="CompanySize" name="CompanySize">
+        <option>Small (1-50)</option>
+        <option>Medium (50-100)</option>
+        <option>Large (100+)</option>
+    </select>
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.CompanyName, "Company Name")
+    @Html.TextBoxFor(x => x.CompanyName, new { @class = "form-control", placeholder = "Company Name", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.CompanyName)
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.Address1, "Address")
+    @Html.TextBoxFor(x => x.Address1, new { @class = "form-control", placeholder = "Address 1", autofocus = "" })<br />
+    @Html.TextBoxFor(x => x.Address2, new { @class = "form-control", placeholder = "Address 2", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.Address1)
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.City, "City")
+    @Html.TextBoxFor(x => x.City, new { @class = "form-control", placeholder = "City", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.City)
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.State, "State")
+    <select id="State" name="State" class="form-control" data-selected="@Model.State">
+	    <option value="AL">Alabama</option>
+	    <option value="AK">Alaska</option>
+	    <option value="AZ">Arizona</option>
+	    <option value="AR">Arkansas</option>
+	    <option value="CA">California</option>
+	    <option value="CO">Colorado</option>
+	    <option value="CT">Connecticut</option>
+	    <option value="DE">Delaware</option>
+	    <option value="DC">District Of Columbia</option>
+	    <option value="FL">Florida</option>
+	    <option value="GA">Georgia</option>
+	    <option value="HI">Hawaii</option>
+	    <option value="ID">Idaho</option>
+	    <option value="IL">Illinois</option>
+	    <option value="IN">Indiana</option>
+	    <option value="IA">Iowa</option>
+	    <option value="KS">Kansas</option>
+	    <option value="KY">Kentucky</option>
+	    <option value="LA">Louisiana</option>
+	    <option value="ME">Maine</option>
+	    <option value="MD">Maryland</option>
+	    <option value="MA">Massachusetts</option>
+	    <option value="MI">Michigan</option>
+	    <option value="MN">Minnesota</option>
+	    <option value="MS">Mississippi</option>
+	    <option value="MO">Missouri</option>
+	    <option value="MT">Montana</option>
+	    <option value="NE">Nebraska</option>
+	    <option value="NV">Nevada</option>
+	    <option value="NH">New Hampshire</option>
+	    <option value="NJ">New Jersey</option>
+	    <option value="NM">New Mexico</option>
+	    <option value="NY">New York</option>
+	    <option value="NC">North Carolina</option>
+	    <option value="ND">North Dakota</option>
+	    <option value="OH">Ohio</option>
+	    <option value="OK">Oklahoma</option>
+	    <option value="OR">Oregon</option>
+	    <option value="PA">Pennsylvania</option>
+	    <option value="RI">Rhode Island</option>
+	    <option value="SC">South Carolina</option>
+	    <option value="SD">South Dakota</option>
+	    <option value="TN">Tennessee</option>
+	    <option value="TX">Texas</option>
+	    <option value="UT">Utah</option>
+	    <option value="VT">Vermont</option>
+	    <option value="VA">Virginia</option>
+	    <option value="WA">Washington</option>
+	    <option value="WV">West Virginia</option>
+	    <option value="WI">Wisconsin</option>
+	    <option value="WY">Wyoming</option>
+    </select>
+    @Html.ValidationMessageFor(x => x.State)
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.Zip, "Zip Code")
+    @Html.TextBoxFor(x => x.Zip, new { @class = "form-control", placeholder = "Zip Code", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.Zip)
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.CompanyPhone, "Phone")
+    @Html.TextBoxFor(x => x.CompanyPhone, new { @class = "form-control", placeholder = "Phone", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.CompanyPhone)
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.CompanyFax, "Fax")
+    @Html.TextBoxFor(x => x.CompanyFax, new { @class = "form-control", placeholder = "Fax", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.CompanyFax)
+</div>
+<div class="form-group">
+    @Html.LabelFor(x => x.CompanyWebsite, "Website Url")
+    @Html.TextBoxFor(x => x.CompanyWebsite, new { @class = "form-control", placeholder = "Website Url", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.CompanyWebsite)
+</div>
+@*
+<div class="form-group">
+    @Html.LabelFor(x => x.CompanyLinkedIn, "LinkedIn Url")
+    @Html.TextBoxFor(x => x.CompanyLinkedIn, new { @class = "form-control", placeholder = "LinkedIn Url", autofocus = "" })
+    @Html.ValidationMessageFor(x => x.CompanyLinkedIn)
+</div>
+*@

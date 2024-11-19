@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Connexien: Find an Expert";
+    Layout = "~/Views/Shared/_SplashLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            <div class="wizard-card">
+                <div class="modal-header">
+                    <h3 class="modal-title text-center">
+                        Find Your Expert
+                    </h3>
+                </div>
+                <div class="modal-body text-center">
+                    <p>
+                        Need help finding the right expert? We make it easy to find the right vendor, consultant, expert or other industry professional to meet your specific project needs. 
+                        Simply select your industry focus, tell us what you're looking for and we'll connect you with the right professionals that match your project.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6" style="padding-top:10px">
+                            <a id="startApplication" href="@Url.Action("Index", "Search")" class="btn btn-primary btn-submit btn-block">Find your expert</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

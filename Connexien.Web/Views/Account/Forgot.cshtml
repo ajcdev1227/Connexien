@@ -1,0 +1,29 @@
+﻿@model Connexien.Web.Models.ForgotPasswordModel
+@{
+    ViewBag.Title = "Forgot";
+    Layout = "~/Views/Shared/_BgLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            <div class="wizard-card">
+                <div class="modal-header">
+                    <h4 class="modal-title">Please enter your email</h4>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("Forgot", "Account", FormMethod.Post, new { @class = "form-signin", role = "form" }))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Email, "Email Address")
+                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", placeholder = "Email", autofocus = "" })
+                            @Html.ValidationMessageFor(x => x.Email)
+                        </div>
+                        <hr />
+                        <button class="btn btn-lg btn-primary btn-block btn-submit" type="submit" data-loading-text="Submitting...">Reset Password</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

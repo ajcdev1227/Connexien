@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Home = "active";
+    ViewBag.Title = "Connexien Contributing Partner Dashboard";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12">
+            <p>We were unable to complete your Contributing Partner registration due to an error in processing</p>
+
+            <p>You can try to submit your registration  @Html.ActionLink("again here", "ConnectPayment", "ContentPartner")</p>
+            <p>Or @Html.ActionLink("click here", "Index", "Home") to be redirected to our home page</p>
+        </div>
+    </div>
+</div>
+

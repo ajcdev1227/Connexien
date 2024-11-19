@@ -1,0 +1,57 @@
+﻿@using Connexien.Web.Models
+@model ProfileModel
+@{
+
+    Model.ServiceTypes = Model.ServiceTypes ?? new long[0];
+    Model.ProductTypes = Model.ProductTypes ?? new long[0];
+    
+    var sTypes = OptionModel.GetServiceTypes();
+    var pTypes = OptionModel.GetProductTypes();
+}
+
+<div class="wrap">
+    <div class="form-group">
+        @Html.LabelFor(x => x.ListedBy, "Under Which category do you want your services or areas of expertise to be discovered?")
+        <p>              
+            <label class="toggle-hide toggle-show-first">@Html.RadioButtonFor(m => m.ListedBy, "service") By Service Type Only</label>&nbsp;&nbsp;
+            <label class="toggle-hide toggle-show-last">@Html.RadioButtonFor(m => m.ListedBy, "product") By Product Type Only</label>&nbsp;&nbsp;
+            <label class="toggle-show">@Html.RadioButtonFor(m => m.ListedBy, "both") Both Products & Services</label>
+        </p>
+    </div>
+    <div class="toggle-hidden">
+        <hr/>
+        <div class="form-group">
+            @Html.LabelFor(x => x.ServiceTypes, "Select the specific service/sub-service type(s) under which you provide services:")
+            <select id="ServiceTypes" name="ServiceTypes" class="chosen" multiple="" data-selected="@string.Join(",", Model.ServiceTypes)">
+                @foreach (var s in sTypes)
+                {
+                    <optgroup label="@s.Key">
+                    @foreach (var v in s.Value)
+                    {
+                        <option value="@v.Value">@v.Text</option>
+                    }
+                    </optgroup>
+                }
+            </select>
+            <small class="text-muted">Click on the box again to select multiple options.</small>
+        </div>
+    </div>
+    <div class="toggle-hidden">
+        <hr/>
+        <div class="form-group">
+            @Html.LabelFor(x => x.ProductTypes, "Select the specific product/service type(s) that would fall under your area(s) of expertise:")
+            <select id="ProductTypes" name="ProductTypes" class="chosen" multiple="" data-selected="@string.Join(",", Model.ProductTypes)">
+                @foreach (var p in pTypes)
+                {
+                    <optgroup label="@p.Key">
+                    @foreach (var v in p.Value)
+                    {
+                        <option value="@v.Value">@v.Text</option>
+                    }
+                    </optgroup>
+                }
+            </select>
+            <small class="text-muted">Click on the box again to select multiple options.</small>
+        </div>
+    </div>
+</div>
